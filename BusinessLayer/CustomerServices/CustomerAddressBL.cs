@@ -27,5 +27,17 @@ namespace BusinessLayer.CustomerServices
                 throw;
             }
         }
+
+        public bool DeleteCustomerAddress(string customerID, long addressID)
+        {
+            try
+            {
+                return customerAddressRL.DeleteCustomerAddress(customerID, addressID); ;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

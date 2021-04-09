@@ -13,6 +13,7 @@ namespace RepositoryLayer.CustomerServices
         readonly SqlConnection connection = new SqlConnection();
         readonly string sqlConnectString;
         readonly string InsertCustomerAddressSQL = "InsertCustomerAddress";
+        readonly string DeleteCustomerAddressSQL = "DeleteCustomerAddress";
         public CustomerAddressRL(IConfiguration config)
         {
             this.config = config;
@@ -53,5 +54,32 @@ namespace RepositoryLayer.CustomerServices
             }
         }
 
+        public bool DeleteCustomerAddress(string customerID, long addressID)
+        {
+            try
+            {
+                connection.Open();
+                SqlCommand cmd = new SqlCommand(DeleteCustomerAddressSQL, connection)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+                cmd.Parameters.AddWithValue("CustomerID", customerID);
+                cmd.Parameters.AddWithValue("AddressID", addressID);
+                var returnParameter = cmd.Parameters.Add("@Result", SqlDbType.Int);
+                returnParameter.Direction = ParameterDirection.ReturnValue;
+                cmd.ExecuteReader();
+                var result = returnParameter.Value;
+                if (result != null && result.Equals(1))
+                {
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

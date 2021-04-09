@@ -8,5 +8,6 @@ namespace BusinessLayer.CustomerIntrfaces
     public interface ICustomerAddressBL
     {
         bool AddCustomerAddress(CustomerAddress address);
+        bool DeleteCustomerAddress(string customerID, long addressID);
     }
 }
