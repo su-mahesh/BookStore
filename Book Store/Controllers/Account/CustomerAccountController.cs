@@ -74,5 +74,27 @@ namespace Book_Store.Controllers.Account
                 return BadRequest(new { success = false, exception.Message });
             }
         }
+        [HttpPost("ForgetPassword")]
+        public IActionResult ResetForgottenPassword(ForgetPasswordModel forgetPasswordModel)
+        {
+            try
+            {
+                bool result = CustomerAccountBL.SendForgottenPasswordLink(forgetPasswordModel);
+
+                if (result)
+                {
+
+                    return Ok(new { success = true, Message = "password reset link has been sent to your email id", email = forgetPasswordModel.Email });
+                }
+                else
+                {
+                    return BadRequest(new { success = false, Message = "email id don't exist" });
+                }
+            }
+            catch (Exception exception)
+            {
+                return BadRequest(new { success = false, exception.Message });
+            }
+        }
     }
 }

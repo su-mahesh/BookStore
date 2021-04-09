@@ -18,6 +18,7 @@ namespace RepositoryLayer.CustomerServices
         readonly string sqlConnectString;
         readonly string InsertCustomerRecordSQL = "InsertCustomerRecord";
         readonly string FetchCustomerRecordSQL = "FetchCustomerLoginRecord";
+        readonly string CheckCustomerRecordSQL = "CheckCustomerRecord";
         CustomerAccount customer;
 
         public CustomerAccountRL(IConfiguration config)
@@ -26,6 +27,33 @@ namespace RepositoryLayer.CustomerServices
             dbConnection = new DatabaseConnection(this.config);
             sqlConnectString = config.GetConnectionString("BookStoreConnection");
             connection.ConnectionString = sqlConnectString + "Connection Timeout=30;Connection Lifetime=0;Min Pool Size=0;Max Pool Size=100;Pooling=true;";
+        }
+
+        public bool CheckCustomer(ForgetPasswordModel forgetPasswordModel)
+        {
+            try
+            {
+                connection.Open();
+                SqlCommand cmd = new SqlCommand(CheckCustomerRecordSQL, connection)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+                cmd.Parameters.AddWithValue("Email", forgetPasswordModel.Email);
+                var returnParameter = cmd.Parameters.Add("@Result", SqlDbType.Int);
+                returnParameter.Direction = ParameterDirection.ReturnValue;
+                cmd.ExecuteReader();
+                var result = returnParameter.Value;
+                if (result != null && result.Equals(1))
+                {
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public CustomerAccount LoginCustomer(LoginCustomerAccount loginCustomerAccount)

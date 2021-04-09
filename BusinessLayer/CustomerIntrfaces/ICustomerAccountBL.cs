@@ -10,5 +10,6 @@ namespace BusinessLayer.CustomerIntrfaces
     {
         public CustomerAccount RegisterCustomer(RegisterCustomerAccount registerCustomerAccount);
          public CustomerAccount LoginCustomer(LoginCustomerAccount loginCustomerAccount);
+        bool SendForgottenPasswordLink(ForgetPasswordModel forgetPasswordModel);
     }
 }

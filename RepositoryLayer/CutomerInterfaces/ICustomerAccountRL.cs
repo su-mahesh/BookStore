@@ -10,5 +10,6 @@ namespace RepositoryLayer.CutomerInterfaces
     {
         public CustomerAccount RegisterCustomer(RegisterCustomerAccount registerCustomerAccount);
         CustomerAccount LoginCustomer(LoginCustomerAccount loginCustomerAccount);
+        bool CheckCustomer(ForgetPasswordModel forgetPasswordModel);
     }
 }
