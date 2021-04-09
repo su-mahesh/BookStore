@@ -44,6 +44,8 @@ namespace Book_Store
             services.AddTransient<ICustomerAccountRL, CustomerAccountRL>();
             services.AddTransient<IAdminAccountBL, AdminAccountBL>();
             services.AddTransient<IAdminAccountRL, AdminAccountRL>();
+            services.AddTransient<ICustomerAddressBL, CustomerAddressBL>();
+            services.AddTransient<ICustomerAddressRL, CustomerAddressRL>();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => {
                 options.TokenValidationParameters = new TokenValidationParameters
                 {

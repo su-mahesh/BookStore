@@ -21,20 +21,8 @@ namespace BusinessLayer.CustomerServices
         {
             this.customerAccountRL = customerAccountRL;
             this.config = config;
-            AuthJWT = new UserAuthenticationJWT(config);
+            AuthJWT = new UserAuthenticationJWT(this.config);
             MSMQ = new MSMQService(config);
-        }
-
-        public bool AddCustomerAddress(CustomerAddress address)
-        {
-            try
-            {
-                return customerAccountRL.AddCustomerAddress(address); ;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
         }
 
         public CustomerAccount LoginCustomer(LoginCustomerAccount loginCustomerAccount)

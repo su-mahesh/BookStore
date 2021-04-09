@@ -121,40 +121,5 @@ namespace Book_Store.Controllers.Account
             }
         }
 
-        [Authorize]
-        [HttpPost("Address/Add")]
-        public IActionResult AddCustomerAddress(CustomerAddress address)
-        {
-            if (address == null)
-            {
-                return BadRequest("address is null.");
-            }
-            try
-            {
-                var identity = User.Identity as ClaimsIdentity;
-                if (identity != null)
-                {
-                    IEnumerable<Claim> claims = identity.Claims;
-                    string CustomerID = claims.Where(p => p.Type == "CustomerID").FirstOrDefault()?.Value;
-                    string UserType = claims.Where(p => p.Type == "UserType").FirstOrDefault()?.Value;
-                    if (UserType.Equals("Customer"))
-                    {
-                        address.CustomerID = CustomerID;
-                        bool result = CustomerAccountBL.AddCustomerAddress(address);
-                        if (result)
-                        {
-                            return Ok(new { success = true, Message = "Customer address added", result });
-                        }
-                    }
-                    
-                }
-                return BadRequest(new { success = false, Message = "Customer address adding Unsuccessful" });
-
-            }
-            catch (Exception exception)
-            {
-                return BadRequest(new { success = false, exception.Message });
-            }
-        }
     }
 }
