@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using CommonLayer.RequestModel;
+using CommonLayer.ResponseModel;
 using Microsoft.Extensions.Configuration;
 using RepositoryLayer.CutomerInterfaces;
 
@@ -14,6 +16,8 @@ namespace RepositoryLayer.CustomerServices
         readonly string sqlConnectString;
         readonly string InsertCustomerAddressSQL = "InsertCustomerAddress";
         readonly string DeleteCustomerAddressSQL = "DeleteCustomerAddress";
+        readonly string GetAllCustomerAddressSQL = "GetAllCustomerAddress";
+        CustomerAddressResponse customerAddress = new CustomerAddressResponse();
         public CustomerAddressRL(IConfiguration config)
         {
             this.config = config;
@@ -74,6 +78,42 @@ namespace RepositoryLayer.CustomerServices
                     return true;
                 }
                 return false;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public ICollection<CustomerAddressResponse> GetAllCustomerAddress(string customerID)
+        {
+            try
+            {
+                ICollection<CustomerAddressResponse> customerAddresses = new List<CustomerAddressResponse>();
+                connection.Open();
+                SqlCommand cmd = new SqlCommand(GetAllCustomerAddressSQL, connection)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+                cmd.Parameters.AddWithValue("CustomerID", customerID);
+                var returnParameter = cmd.Parameters.Add("@Result", SqlDbType.Int);
+                returnParameter.Direction = ParameterDirection.ReturnValue;
+                SqlDataReader rd = cmd.ExecuteReader();
+                var result = returnParameter.Value;
+                while (rd.Read())
+                {
+                    customerAddress.AddressID = rd["CustomerAddressID"] == DBNull.Value ? default : rd.GetInt64("CustomerAddressID");
+                    customerAddress.Address = rd["Address"] == DBNull.Value ? default : rd.GetString("Address");
+                    customerAddress.AddressType = rd["AddressType"] == DBNull.Value ? default : rd.GetString("AddressType");
+                    customerAddress.City = rd["City"] == DBNull.Value ? default : rd.GetString("City");
+                    customerAddress.CustomerID = rd["CustomerID"] == DBNull.Value ? default : rd.GetString("CustomerID");
+                    customerAddress.Pincode = rd["Pincode"] == DBNull.Value ? default : rd.GetInt32("Pincode");
+                    customerAddress.Landmark = rd["Landmark"] == DBNull.Value ? default : rd.GetString("Landmark");
+                    customerAddress.Locality = rd["Locality"] == DBNull.Value ? default : rd.GetString("Locality");
+                    customerAddresses.Add(customerAddress);
+                }
+                return customerAddresses;
             }
             catch (Exception)
             {

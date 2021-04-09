@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using CommonLayer.RequestModel;
+using CommonLayer.ResponseModel;
 
 namespace RepositoryLayer.CutomerInterfaces
 {
@@ -9,5 +10,6 @@ namespace RepositoryLayer.CutomerInterfaces
     {
         bool AddCustomerAddress(CustomerAddress address);
         bool DeleteCustomerAddress(string customerID, long addressID);
+        ICollection<CustomerAddressResponse> GetAllCustomerAddress(string customerID);
     }
 }

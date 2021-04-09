@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using BusinessLayer.CustomerIntrfaces;
 using CommonLayer.RequestModel;
+using CommonLayer.ResponseModel;
 using RepositoryLayer.CutomerInterfaces;
 
 namespace BusinessLayer.CustomerServices
@@ -32,7 +33,19 @@ namespace BusinessLayer.CustomerServices
         {
             try
             {
-                return customerAddressRL.DeleteCustomerAddress(customerID, addressID); ;
+                return customerAddressRL.DeleteCustomerAddress(customerID, addressID); 
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public ICollection<CustomerAddressResponse> GetAllCustomerAddress(string customerID)
+        {
+            try
+            {
+                return customerAddressRL.GetAllCustomerAddress(customerID); ;
             }
             catch (Exception)
             {

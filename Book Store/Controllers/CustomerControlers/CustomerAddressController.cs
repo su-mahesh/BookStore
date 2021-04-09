@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using BusinessLayer.CustomerIntrfaces;
 using CommonLayer.RequestModel;
+using CommonLayer.ResponseModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -82,6 +83,33 @@ namespace Book_Store.Controllers.CustomerControlers
                     }
                 }
                 return BadRequest(new { success = false, Message = "Customer address delete Unsuccessful" });
+            }
+            catch (Exception exception)
+            {
+                return BadRequest(new { success = false, exception.Message });
+            }
+        }
+        [HttpGet]
+        public IActionResult GetAllCustomerAddress()
+        {
+            try
+            {
+                var identity = User.Identity as ClaimsIdentity;
+                if (identity != null)
+                {
+                    IEnumerable<Claim> claims = identity.Claims;
+                    string CustomerID = claims.Where(p => p.Type == "CustomerID").FirstOrDefault()?.Value;
+                    string UserType = claims.Where(p => p.Type == "UserType").FirstOrDefault()?.Value;
+                    if (UserType.Equals("Customer"))
+                    {
+                        ICollection<CustomerAddressResponse> address = CustomerAddressBL.GetAllCustomerAddress(CustomerID);
+                        if (address != null)
+                        {
+                            return Ok(new { success = true, Message = "Customer address fetched", address });
+                        }
+                    }
+                }
+                return BadRequest(new { success = false, Message = "Customer address fetch Unsuccessful" });
             }
             catch (Exception exception)
             {
