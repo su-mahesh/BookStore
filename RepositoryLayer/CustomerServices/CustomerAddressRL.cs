@@ -35,6 +35,7 @@ namespace RepositoryLayer.CustomerServices
                     CommandType = CommandType.StoredProcedure
                 };
                 cmd.Parameters.AddWithValue("CustomerID", address.CustomerID);
+                cmd.Parameters.AddWithValue("Name", address.Name);
                 cmd.Parameters.AddWithValue("Pincode", address.Pincode);
                 cmd.Parameters.AddWithValue("Address", address.Address);
                 cmd.Parameters.AddWithValue("City", address.City);
@@ -105,6 +106,7 @@ namespace RepositoryLayer.CustomerServices
                 {
                     customerAddress.AddressID = rd["CustomerAddressID"] == DBNull.Value ? default : rd.GetInt64("CustomerAddressID");
                     customerAddress.Address = rd["Address"] == DBNull.Value ? default : rd.GetString("Address");
+                    customerAddress.Name = rd["Name"] == DBNull.Value ? default : rd.GetString("Name");
                     customerAddress.AddressType = rd["AddressType"] == DBNull.Value ? default : rd.GetString("AddressType");
                     customerAddress.City = rd["City"] == DBNull.Value ? default : rd.GetString("City");
                     customerAddress.CustomerID = rd["CustomerID"] == DBNull.Value ? default : rd.GetString("CustomerID");

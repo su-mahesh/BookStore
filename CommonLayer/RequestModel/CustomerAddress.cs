@@ -7,6 +7,7 @@ namespace CommonLayer.RequestModel
     public class CustomerAddress
     {
         public string CustomerID { get; set; }
+        public string Name { get; set; }
         public int Pincode { get; set; }
         public string Locality { get; set; }
         public string Address { get; set; }

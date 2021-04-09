@@ -6,6 +6,7 @@ namespace CommonLayer.ResponseModel
 {
     public class CustomerAddressResponse
     {
+        public string Name { get; set; }
         public long AddressID { get; set; }
         public string CustomerID { get; set; }
         public int Pincode { get; set; }
