@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using BusinessLayer.CustomerIntrfaces;
 using CommonLayer.RequestModel;
 using CommonLayer.ResponseModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -90,6 +92,31 @@ namespace Book_Store.Controllers.Account
                 {
                     return BadRequest(new { success = false, Message = "email id don't exist" });
                 }
+            }
+            catch (Exception exception)
+            {
+                return BadRequest(new { success = false, exception.Message });
+            }
+        }
+        [Authorize]
+        [HttpPost("ResetPassword")]
+        public IActionResult ResetPassword(ResetPasswordModel resetPasswordModel)
+        {
+            try
+            {
+                var identity = User.Identity as ClaimsIdentity;
+                if (identity != null)
+                { 
+                    IEnumerable<Claim> claims = identity.Claims;
+                    var Email = claims.Where(p => p.Type == "Email").FirstOrDefault()?.Value;
+                    resetPasswordModel.Email = Email;
+                    bool result = CustomerAccountBL.ResetCustomerAccountPassword(resetPasswordModel);
+                    if (result)
+                    {
+                        return Ok(new { success = true, Message = "password changed successfully" });
+                    }
+                }
+                return BadRequest(new { success = false, Message = "password change unsuccessfull" });
             }
             catch (Exception exception)
             {

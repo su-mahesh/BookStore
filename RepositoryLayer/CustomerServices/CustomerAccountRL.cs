@@ -19,6 +19,7 @@ namespace RepositoryLayer.CustomerServices
         readonly string InsertCustomerRecordSQL = "InsertCustomerRecord";
         readonly string FetchCustomerRecordSQL = "FetchCustomerLoginRecord";
         readonly string CheckCustomerRecordSQL = "CheckCustomerRecord";
+        readonly string ChangeCustomerPasswordSQL = "ChangeCustomerPassword";
         CustomerAccount customer;
 
         public CustomerAccountRL(IConfiguration config)
@@ -135,6 +136,36 @@ namespace RepositoryLayer.CustomerServices
             catch (Exception)
             {
 
+                throw;
+            }
+        }
+
+        public bool ResetCustomerAccountPassword(ResetPasswordModel resetPasswordModel)
+        {
+            try
+            {
+                connection.Open();
+                SqlCommand cmd = new SqlCommand(ChangeCustomerPasswordSQL, connection)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+                cmd.Parameters.AddWithValue("Email", resetPasswordModel.Email);
+                cmd.Parameters.AddWithValue("NewPassword", resetPasswordModel.NewPassword);
+                var returnParameter = cmd.Parameters.Add("@Result", SqlDbType.Int);
+                returnParameter.Direction = ParameterDirection.ReturnValue;
+
+                CustomerAccount customer = new CustomerAccount();
+                SqlDataReader rd = cmd.ExecuteReader();
+                var result = returnParameter.Value;
+
+                if (result != null && result.Equals(1))
+                {
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception)
+            {
                 throw;
             }
         }

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using BusinessLayer.CustomerIntrfaces;
 using BusinessLayer.JWTAuthentication;
 using BusinessLayer.MSMQ;
@@ -53,6 +51,19 @@ namespace BusinessLayer.CustomerServices
             {
                 registerCustomerAccount.Password = passwordEncryption.EncryptPassword(registerCustomerAccount.Password);
                 return customerAccountRL.RegisterCustomer(registerCustomerAccount);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public bool ResetCustomerAccountPassword(ResetPasswordModel resetPasswordModel)
+        {
+            try
+            {
+                resetPasswordModel.NewPassword = passwordEncryption.EncryptPassword(resetPasswordModel.NewPassword);
+                return customerAccountRL.ResetCustomerAccountPassword(resetPasswordModel);
             }
             catch (Exception)
             {
