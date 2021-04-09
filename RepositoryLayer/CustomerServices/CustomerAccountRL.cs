@@ -16,7 +16,9 @@ namespace RepositoryLayer.CustomerServices
         readonly DatabaseConnection dbConnection;
         readonly SqlConnection connection = new SqlConnection();
         readonly string sqlConnectString;
-        readonly string SQL = "InsertCustomerRecord";
+        readonly string InsertCustomerRecordSQL = "InsertCustomerRecord";
+        readonly string FetchCustomerRecordSQL = "FetchCustomerLoginRecord";
+        CustomerAccount customer;
 
         public CustomerAccountRL(IConfiguration config)
         {
@@ -24,7 +26,48 @@ namespace RepositoryLayer.CustomerServices
             dbConnection = new DatabaseConnection(this.config);
             sqlConnectString = config.GetConnectionString("BookStoreConnection");
             connection.ConnectionString = sqlConnectString + "Connection Timeout=30;Connection Lifetime=0;Min Pool Size=0;Max Pool Size=100;Pooling=true;";
+        }
 
+        public CustomerAccount LoginCustomer(LoginCustomerAccount loginCustomerAccount)
+        {
+            try
+            {
+                connection.Open();
+                SqlCommand cmd = new SqlCommand(FetchCustomerRecordSQL, connection)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+                cmd.Parameters.AddWithValue("Email", loginCustomerAccount.Email);
+                cmd.Parameters.AddWithValue("Password", loginCustomerAccount.Password);
+                var returnParameter = cmd.Parameters.Add("@Result", SqlDbType.Int);
+                returnParameter.Direction = ParameterDirection.ReturnValue;
+
+                customer = new CustomerAccount();
+                SqlDataReader rd = cmd.ExecuteReader();
+                var result = returnParameter.Value;
+                if (rd.Read())
+                {
+                    customer.CustomerID = rd["CustomerID"] == DBNull.Value ? default : rd.GetString("CustomerID");
+                    customer.FirstName = rd["CustomerFirstName"] == DBNull.Value ? default : rd.GetString("CustomerFirstName");
+                    customer.LastName = rd["CustomerLastName"] == DBNull.Value ? default : rd.GetString("CustomerLastName");
+                    customer.Email = rd["Email"] == DBNull.Value ? default : rd.GetString("Email");
+                    customer.PhoneNumber = rd["PhoneNumber"] == DBNull.Value ? default : rd.GetInt64("PhoneNumber");
+                }
+                if (result != null && result.Equals(2))
+                {
+                    throw new Exception("Email not registered");
+                }
+                if (result != null && result.Equals(3))
+                {
+                    throw new Exception("wrong password");
+                }
+                return customer;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public CustomerAccount RegisterCustomer(RegisterCustomerAccount registerCustomerAccount)
@@ -32,7 +75,7 @@ namespace RepositoryLayer.CustomerServices
             try
             {
                 connection.Open();
-                SqlCommand cmd = new SqlCommand(SQL, connection)
+                SqlCommand cmd = new SqlCommand(InsertCustomerRecordSQL, connection)
                 {
                     CommandType = CommandType.StoredProcedure
                 };

@@ -9,5 +9,6 @@ namespace BusinessLayer.CustomerIntrfaces
     public interface ICustomerAccountBL
     {
         public CustomerAccount RegisterCustomer(RegisterCustomerAccount registerCustomerAccount);
+         public CustomerAccount LoginCustomer(LoginCustomerAccount loginCustomerAccount);
     }
 }

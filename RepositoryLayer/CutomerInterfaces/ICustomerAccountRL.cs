@@ -9,5 +9,6 @@ namespace RepositoryLayer.CutomerInterfaces
     public interface ICustomerAccountRL
     {
         public CustomerAccount RegisterCustomer(RegisterCustomerAccount registerCustomerAccount);
+        CustomerAccount LoginCustomer(LoginCustomerAccount loginCustomerAccount);
     }
 }

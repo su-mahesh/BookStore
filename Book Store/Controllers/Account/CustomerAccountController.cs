@@ -25,8 +25,8 @@ namespace Book_Store.Controllers.Account
             CustomerAccountBL = customerAccountBL;
         }
 
-        [HttpPost("RegisterUser")]
-        public IActionResult RegisterUser(RegisterCustomerAccount Customer)
+        [HttpPost("Register")]
+        public IActionResult RegisterCustomer(RegisterCustomerAccount Customer)
         {
             if (Customer == null)
             {
@@ -42,6 +42,31 @@ namespace Book_Store.Controllers.Account
                 else
                 {
                     return BadRequest(new { success = false, Message = "Customer Registration Unsuccessful" });
+                }
+            }
+            catch (Exception exception)
+            {
+                return BadRequest(new { success = false, exception.Message });
+            }
+        }
+
+        [HttpPost("Login")]
+        public IActionResult LoginUser(LoginCustomerAccount Customer)
+        {
+            if (Customer == null)
+            {
+                return BadRequest("Customer is null.");
+            }
+            try
+            {
+                CustomerAccount result = CustomerAccountBL.LoginCustomer(Customer);
+                if (result != null)
+                {
+                    return Ok(new { success = true, Message = "Customer login Successful", Customer = result });
+                }
+                else
+                {
+                    return BadRequest(new { success = false, Message = "Customer login Unsuccessful" });
                 }
             }
             catch (Exception exception)
