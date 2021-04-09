@@ -10,5 +10,6 @@ namespace CommonLayer.ResponseModel
         public string AdminName { get; set; }
         public string Email { get; set; }
         public long PhoneNumber { get; set; }
+        public string token { get; set; }
     }
 }

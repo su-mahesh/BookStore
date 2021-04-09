@@ -11,5 +11,6 @@ namespace CommonLayer.RequestModel
         public string AdminID { get; set; }
         [Required]
         public string Password { get; set; }
+
     }
 }

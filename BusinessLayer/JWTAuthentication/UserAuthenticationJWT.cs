@@ -16,9 +16,14 @@ namespace BusinessLayer.JWTAuthentication
     public class UserAuthenticationJWT
     {
         private readonly IConfiguration config;
+        SymmetricSecurityKey securityKey;
+        SigningCredentials credentials;
+
         public UserAuthenticationJWT(IConfiguration config)
         {
             this.config = config;
+            securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["Jwt:Key"]));
+            credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
         }
 
         public string GenerateCustomerSessionJWT(CustomerAccount userInfo)
@@ -28,7 +33,17 @@ namespace BusinessLayer.JWTAuthentication
                 new Claim("UserType", "Customer"),
                 new Claim("CustomerID", userInfo.CustomerID.ToString()),
                 new Claim("Email", userInfo.Email) };
-            return GenerateJSONWebToken(userInfo, ExpireTime, Claims);
+            return GenerateJSONWebToken(ExpireTime, Claims);
+        }
+
+        public string GenerateAdminSessionJWT(AdminAccount userInfo)
+        {
+            DateTime ExpireTime = DateTime.Now.AddMinutes(120);
+            IEnumerable<Claim> Claims = new Claim[] {
+                new Claim("UserType", "Admin"),
+                new Claim("AdminID", userInfo.AdminID.ToString()),
+                new Claim("Email", userInfo.Email) };
+            return GenerateJSONWebToken(ExpireTime, Claims);
         }
 
         public string GenerateCustomerPasswordResetJWT(ForgetPasswordModel userInfo)
@@ -37,27 +52,19 @@ namespace BusinessLayer.JWTAuthentication
             IEnumerable<Claim> Claims = new Claim[] {
                 new Claim("UserType", "Customer"),
                 new Claim("Email", userInfo.Email) };
-            return GeneratePasswordResetJWT(userInfo, ExpireTime, Claims);
+            return GeneratePasswordResetJWT(ExpireTime, Claims);
         }
 
-        public string GeneratePasswordResetJWT(ForgetPasswordModel userInfo, DateTime ExpireTime, IEnumerable<Claim> Claims)
+        public string GeneratePasswordResetJWT(DateTime ExpireTime, IEnumerable<Claim> Claims)
         {
-            SymmetricSecurityKey securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["Jwt:Key"]));
-            SigningCredentials credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-
-
             var token = new JwtSecurityToken(config["Jwt:Issuer"],
               claims: Claims,
               expires: ExpireTime,
               signingCredentials: credentials);
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
-        public string GenerateJSONWebToken(CustomerAccount userInfo, DateTime ExpireTime, IEnumerable<Claim> Claims)
+        public string GenerateJSONWebToken(DateTime ExpireTime, IEnumerable<Claim> Claims)
         {
-            SymmetricSecurityKey securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["Jwt:Key"]));
-            SigningCredentials credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
- 
-
             var token = new JwtSecurityToken(config["Jwt:Issuer"],
               claims: Claims,
               expires: ExpireTime,
