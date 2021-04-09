@@ -1,8 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using BusinessLayer.AdminInterfaces;
+using CommonLayer.RequestModel;
+using CommonLayer.ResponseModel;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -12,36 +13,35 @@ namespace Book_Store.Controllers.Account
     [ApiController]
     public class AdminAccountController : ControllerBase
     {
-        // GET: api/<AdminAccountController>
-        [HttpGet]
-        public IEnumerable<string> Get()
+        IAdminAccountBL adminAccountBL;
+        private readonly IConfiguration config;
+
+        public AdminAccountController(IAdminAccountBL adminAccountBL, IConfiguration config)
         {
-            return new string[] { "value1", "value2" };
+            this.adminAccountBL = adminAccountBL;
+            this.config = config;
         }
 
-        // GET api/<AdminAccountController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpPost("Login")]
+        public IActionResult LoginAdmin(LoginAdminAccount loginAdminAccount)
         {
-            return "value";
+            try
+            {
+                if (loginAdminAccount != null)
+                {
+                    AdminAccount result = adminAccountBL.LoginAdmin(loginAdminAccount); ;
+                    if (result != null)
+                    {
+                        return Ok(new { success = true, Message = "Admin login successfull", result });
+                    }
+                }
+                return BadRequest(new { success = false, Message = "Admin login unsuccessfull" });
+            }
+            catch (Exception exception)
+            {
+                return BadRequest(new { success = false, exception.Message });
+            }
         }
 
-        // POST api/<AdminAccountController>
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
-
-        // PUT api/<AdminAccountController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<AdminAccountController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
     }
 }

@@ -29,7 +29,6 @@ namespace BusinessLayer.CustomerServices
         {
             try
             {
-                
                 loginCustomerAccount.Password = passwordEncryption.EncryptPassword(loginCustomerAccount.Password);
                 
                 var result = customerAccountRL.LoginCustomer(loginCustomerAccount);

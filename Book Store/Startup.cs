@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BusinessLayer.AdminInterfaces;
+using BusinessLayer.AdminServices;
 using BusinessLayer.CustomerIntrfaces;
 using BusinessLayer.CustomerServices;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -16,6 +18,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using RepositoryLayer.AdminInterfaces;
+using RepositoryLayer.AdminServices;
 using RepositoryLayer.CustomerServices;
 using RepositoryLayer.CutomerInterfaces;
 
@@ -38,6 +42,8 @@ namespace Book_Store
 
             services.AddTransient<ICustomerAccountBL, CustomerAccountBL>();
             services.AddTransient<ICustomerAccountRL, CustomerAccountRL>();
+            services.AddTransient<IAdminAccountBL, AdminAccountBL>();
+            services.AddTransient<IAdminAccountRL, AdminAccountRL>();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => {
                 options.TokenValidationParameters = new TokenValidationParameters
                 {

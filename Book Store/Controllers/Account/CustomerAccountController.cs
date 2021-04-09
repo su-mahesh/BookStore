@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
-using System.Threading.Tasks;
 using BusinessLayer.CustomerIntrfaces;
 using CommonLayer.RequestModel;
 using CommonLayer.ResponseModel;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
@@ -19,7 +17,6 @@ namespace Book_Store.Controllers.Account
     {
         private readonly IConfiguration config;
         private readonly ICustomerAccountBL CustomerAccountBL;
-        
 
         public CustomerAccountController(IConfiguration config, ICustomerAccountBL customerAccountBL)
         {
