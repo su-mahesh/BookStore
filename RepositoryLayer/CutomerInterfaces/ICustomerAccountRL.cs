@@ -12,5 +12,6 @@ namespace RepositoryLayer.CutomerInterfaces
         CustomerAccount LoginCustomer(LoginCustomerAccount loginCustomerAccount);
         bool CheckCustomer(ForgetPasswordModel forgetPasswordModel);
         bool ResetCustomerAccountPassword(ResetPasswordModel resetPasswordModel);
+        bool AddCustomerAddress(CustomerAddress address);
     }
 }

@@ -25,6 +25,18 @@ namespace BusinessLayer.CustomerServices
             MSMQ = new MSMQService(config);
         }
 
+        public bool AddCustomerAddress(CustomerAddress address)
+        {
+            try
+            {
+                return customerAccountRL.AddCustomerAddress(address); ;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         public CustomerAccount LoginCustomer(LoginCustomerAccount loginCustomerAccount)
         {
             try

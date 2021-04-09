@@ -12,5 +12,6 @@ namespace BusinessLayer.CustomerIntrfaces
          public CustomerAccount LoginCustomer(LoginCustomerAccount loginCustomerAccount);
         bool SendForgottenPasswordLink(ForgetPasswordModel forgetPasswordModel);
         bool ResetCustomerAccountPassword(ResetPasswordModel resetPasswordModel);
+        bool AddCustomerAddress(CustomerAddress address);
     }
 }
