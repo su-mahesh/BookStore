@@ -28,7 +28,13 @@ namespace BusinessLayer.AdminServices
             try
             {
                 loginAdminAccount.Password = passwordEncryption.EncryptPassword(loginAdminAccount.Password);
-                return adminAccountRL.LoginAdmin(loginAdminAccount);
+                var result =  adminAccountRL.LoginAdmin(loginAdminAccount);
+                if (result != null)
+                {
+                    result.token = AuthJWT.GenerateAdminSessionJWT(result);
+                    return result;
+                }
+                return null;
             }
             catch (Exception)
             {

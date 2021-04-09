@@ -28,7 +28,7 @@ namespace Book_Store.Controllers.Account
             try
             {
                 if (loginAdminAccount != null)
-                {
+                { 
                     AdminAccount result = adminAccountBL.LoginAdmin(loginAdminAccount); ;
                     if (result != null)
                     {
