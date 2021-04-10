@@ -18,14 +18,10 @@ namespace Book_Store.Controllers.CustomerControlers
     [Authorize]
     public class CustomerAddressController : ControllerBase
     {
-        private readonly IConfiguration config;
-        private readonly ICustomerAccountBL CustomerAccountBL;
         private readonly ICustomerAddressBL CustomerAddressBL;
 
-        public CustomerAddressController(IConfiguration config, ICustomerAccountBL customerAccountBL, ICustomerAddressBL CustomerAddressBL)
+        public CustomerAddressController(ICustomerAddressBL CustomerAddressBL)
         {
-            this.config = config;
-            CustomerAccountBL = customerAccountBL;
             this.CustomerAddressBL  = CustomerAddressBL;
         }
 
