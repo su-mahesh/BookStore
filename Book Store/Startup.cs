@@ -44,6 +44,8 @@ namespace Book_Store
             services.AddTransient<IBookManagementRL, BookManagementRL>();
             services.AddTransient<ICustomerCartBL, CustomerCartBL>();
             services.AddTransient<ICustomerCartRL, CustomerCartRL>();
+            services.AddTransient<ICustomerWishListBL, CustomerWishListBL>();
+            services.AddTransient<ICustomerWishListRL, CustomerWishListRL>();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => {
                 options.TokenValidationParameters = new TokenValidationParameters
                 {

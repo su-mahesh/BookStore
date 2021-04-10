@@ -14,11 +14,11 @@ namespace BusinessLayer.CustomerServices
         {
             this.customerWishListRL = customerWishListRL;
         }
-        public ICollection<CustomerWishList> AddBookToCart(string CustomerID, long BookID)
+        public ICollection<CustomerWishList> AddBookToWishList(string CustomerID, long BookID)
         {
             try
             {
-                var result = customerWishListRL.AddBookToCart(CustomerID, BookID);
+                var result = customerWishListRL.AddBookToWishList(CustomerID, BookID);
                 return result;
             }
             catch (Exception)

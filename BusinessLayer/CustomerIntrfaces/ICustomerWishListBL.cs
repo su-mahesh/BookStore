@@ -7,6 +7,6 @@ namespace BusinessLayer.CustomerIntrfaces
 {
     public interface ICustomerWishListBL
     {
-        public ICollection<CustomerWishList> AddBookToCart(string CustomerID, long BookID);
+        public ICollection<CustomerWishList> AddBookToWishList(string CustomerID, long BookID);
     }
 }

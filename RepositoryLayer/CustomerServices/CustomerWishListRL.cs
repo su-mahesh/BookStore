@@ -23,7 +23,7 @@ namespace RepositoryLayer.CustomerServices
             connection.ConnectionString = sqlConnectString + "Connection Timeout=30;Connection Lifetime=0;Min Pool Size=0;Max Pool Size=100;Pooling=true;";
         }
 
-        public ICollection<CustomerWishList> AddBookToCart(string CustomerID, long BookID)
+        public ICollection<CustomerWishList> AddBookToWishList(string CustomerID, long BookID)
         {
             try
             {
@@ -54,7 +54,6 @@ namespace RepositoryLayer.CustomerServices
             }
             catch (Exception)
             {
-
                 throw;
             }
         }
