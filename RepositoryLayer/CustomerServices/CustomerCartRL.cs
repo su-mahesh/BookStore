@@ -19,7 +19,6 @@ namespace RepositoryLayer.CustomerServices
         public CustomerCartRL(IConfiguration config)
         {
             this.config = config;
-            this.config = config;
             sqlConnectString = this.config.GetConnectionString("BookStoreConnection");
             connection.ConnectionString = sqlConnectString + "Connection Timeout=30;Connection Lifetime=0;Min Pool Size=0;Max Pool Size=100;Pooling=true;";
         }
