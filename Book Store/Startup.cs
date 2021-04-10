@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BusinessLayer.AdminInterfaces;
@@ -10,12 +8,9 @@ using BusinessLayer.CustomerServices;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using RepositoryLayer.AdminInterfaces;
@@ -39,7 +34,6 @@ namespace Book_Store
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddTransient<ICustomerAccountBL, CustomerAccountBL>();
             services.AddTransient<ICustomerAccountRL, CustomerAccountRL>();
             services.AddTransient<IAdminAccountBL, AdminAccountBL>();
@@ -48,6 +42,8 @@ namespace Book_Store
             services.AddTransient<ICustomerAddressRL, CustomerAddressRL>();
             services.AddTransient<IBookManagementBL, BookManagementBL>();
             services.AddTransient<IBookManagementRL, BookManagementRL>();
+            services.AddTransient<ICustomerCartBL, CustomerCartBL>();
+            services.AddTransient<ICustomerCartRL, CustomerCartRL>();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => {
                 options.TokenValidationParameters = new TokenValidationParameters
                 {

@@ -72,14 +72,7 @@ namespace RepositoryLayer.CustomerServices
                 customer = new CustomerAccount();
                 SqlDataReader rd = cmd.ExecuteReader();
                 var result = returnParameter.Value;
-                if (rd.Read())
-                {
-                    customer.CustomerID = rd["CustomerID"] == DBNull.Value ? default : rd.GetString("CustomerID");
-                    customer.FirstName = rd["CustomerFirstName"] == DBNull.Value ? default : rd.GetString("CustomerFirstName");
-                    customer.LastName = rd["CustomerLastName"] == DBNull.Value ? default : rd.GetString("CustomerLastName");
-                    customer.Email = rd["Email"] == DBNull.Value ? default : rd.GetString("Email");
-                    customer.PhoneNumber = rd["PhoneNumber"] == DBNull.Value ? default : rd.GetInt64("PhoneNumber");
-                }
+         
                 if (result != null && result.Equals(2))
                 {
                     throw new Exception("Email not registered");
@@ -87,6 +80,14 @@ namespace RepositoryLayer.CustomerServices
                 if (result != null && result.Equals(3))
                 {
                     throw new Exception("wrong password");
+                }
+                if (rd.Read())
+                {
+                    customer.CustomerID = rd["CustomerID"] == DBNull.Value ? default : rd.GetString("CustomerID");
+                    customer.FirstName = rd["CustomerFirstName"] == DBNull.Value ? default : rd.GetString("CustomerFirstName");
+                    customer.LastName = rd["CustomerLastName"] == DBNull.Value ? default : rd.GetString("CustomerLastName");
+                    customer.Email = rd["Email"] == DBNull.Value ? default : rd.GetString("Email");
+                    customer.PhoneNumber = rd["PhoneNumber"] == DBNull.Value ? default : rd.GetInt64("PhoneNumber");
                 }
                 return customer;
             }
