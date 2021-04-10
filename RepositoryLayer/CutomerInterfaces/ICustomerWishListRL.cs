@@ -8,5 +8,6 @@ namespace RepositoryLayer.CutomerInterfaces
     public interface ICustomerWishListRL
     {
         public ICollection<CustomerWishList> AddBookToWishList(string CustomerID, long BookID);
+        ICollection<CustomerWishList> RemoveBookFromWishList(string customerID, long bookID);
     }
 }

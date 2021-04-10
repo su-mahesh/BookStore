@@ -27,5 +27,17 @@ namespace BusinessLayer.CustomerServices
             }
         }
 
+        public ICollection<CustomerWishList> RemoveBookFromWishList(string CustomerID, long BookID)
+        {
+            try
+            {
+                var result = customerWishListRL.RemoveBookFromWishList(CustomerID, BookID);
+                return result;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

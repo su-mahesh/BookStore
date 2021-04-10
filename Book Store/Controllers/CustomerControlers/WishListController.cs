@@ -50,5 +50,32 @@ namespace Book_Store.Controllers.CustomerControlers
                 return BadRequest(new { success = false, exception.Message });
             }
         }
+        [HttpDelete("{BookID}")]
+        public IActionResult RemoveBookFromWishList(long BookID)
+        {
+            try
+            {
+                var identity = User.Identity as ClaimsIdentity;
+                if (identity != null)
+                {
+                    IEnumerable<Claim> claims = identity.Claims;
+                    string CustomerID = claims.Where(p => p.Type == "CustomerID").FirstOrDefault()?.Value;
+                    string UserType = claims.Where(p => p.Type == "UserType").FirstOrDefault()?.Value;
+                    if (UserType.Equals("Customer"))
+                    {
+                        ICollection<CustomerWishList> WishList = customerWishListBL.RemoveBookFromWishList(CustomerID, BookID);
+                        if (WishList != null)
+                        {
+                            return Ok(new { success = true, Message = "Book removed From WishList", WishList });
+                        }
+                    }
+                }
+                return BadRequest(new { success = false, Message = "Book remove from WishList Unsuccessful" });
+            }
+            catch (Exception exception)
+            {
+                return BadRequest(new { success = false, exception.Message });
+            }
+        }
     }
 }
