@@ -9,5 +9,6 @@ namespace RepositoryLayer.CutomerInterfaces
     {
         public ICollection<CustomerWishList> AddBookToWishList(string CustomerID, long BookID);
         ICollection<CustomerWishList> RemoveBookFromWishList(string customerID, long bookID);
+        public ICollection<CustomerWishList> GetWishList(string CustomerID);
     }
 }
