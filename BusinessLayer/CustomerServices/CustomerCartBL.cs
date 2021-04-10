@@ -29,6 +29,19 @@ namespace BusinessLayer.CustomerServices
             }
         }
 
+        public ICollection<CustomerCart> GetCart(string CustomerID)
+        {
+            try
+            {
+                var result = customerCartRL.GetCart(CustomerID);
+                return result;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         public ICollection<CustomerCart> RemoveBookFromCart(string CustomerID, long BookID)
         {
             try

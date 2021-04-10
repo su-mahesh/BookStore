@@ -22,6 +22,33 @@ namespace Book_Store.Controllers.CustomerControlers
         {
             this.customerCartBL = customerCartBL;
         }
+        [HttpPost("{BookID}")]
+        public IActionResult GetCart(long BookID)
+        {
+            try
+            {
+                var identity = User.Identity as ClaimsIdentity;
+                if (identity != null)
+                {
+                    IEnumerable<Claim> claims = identity.Claims;
+                    string CustomerID = claims.Where(p => p.Type == "CustomerID").FirstOrDefault()?.Value;
+                    string UserType = claims.Where(p => p.Type == "UserType").FirstOrDefault()?.Value;
+                    if (UserType.Equals("Customer"))
+                    {
+                        ICollection<CustomerCart> cart = customerCartBL.GetCart(CustomerID);
+                        if (cart != null)
+                        {
+                            return Ok(new { success = true, cart });
+                        }
+                    }
+                }
+                return BadRequest(new { success = false, Message = "cart empty" });
+            }
+            catch (Exception exception)
+            {
+                return BadRequest(new { success = false, exception.Message });
+            }
+        }
 
         [HttpPost("{BookID}")]
         public IActionResult AddBookToCart(long BookID) 
