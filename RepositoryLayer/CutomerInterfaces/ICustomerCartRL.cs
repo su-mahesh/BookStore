@@ -8,5 +8,6 @@ namespace RepositoryLayer.CutomerInterfaces
     public interface ICustomerCartRL
     {
         public ICollection<CustomerCart> AddBookToCart(string CustomerID, long BookID);
+        ICollection<CustomerCart> RemoveBookFromCart(string customerID, long bookID);
     }
 }

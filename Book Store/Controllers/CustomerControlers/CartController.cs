@@ -50,5 +50,33 @@ namespace Book_Store.Controllers.CustomerControlers
                 return BadRequest(new { success = false, exception.Message });
             }
         }
+
+        [HttpDelete("{BookID}")]
+        public IActionResult RemoveBookFromCart(long BookID)
+        {
+            try
+            {
+                var identity = User.Identity as ClaimsIdentity;
+                if (identity != null)
+                {
+                    IEnumerable<Claim> claims = identity.Claims;
+                    string CustomerID = claims.Where(p => p.Type == "CustomerID").FirstOrDefault()?.Value;
+                    string UserType = claims.Where(p => p.Type == "UserType").FirstOrDefault()?.Value;
+                    if (UserType.Equals("Customer"))
+                    {
+                        ICollection<CustomerCart> cart = customerCartBL.RemoveBookFromCart(CustomerID, BookID);
+                        if (cart != null)
+                        {
+                            return Ok(new { success = true, Message = "book removed from cart", cart });
+                        }
+                    }
+                }
+                return BadRequest(new { success = false, Message = "book removed from cart Unsuccessful" });
+            }
+            catch (Exception exception)
+            {
+                return BadRequest(new { success = false, exception.Message });
+            }
+        }
     }
 }

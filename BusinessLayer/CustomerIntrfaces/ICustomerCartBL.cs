@@ -8,5 +8,6 @@ namespace BusinessLayer.CustomerIntrfaces
     public interface ICustomerCartBL
     {
         public ICollection<CustomerCart> AddBookToCart(string CustomerID, long BookID);
+        ICollection<CustomerCart> RemoveBookFromCart(string customerID, long bookID);
     }
 }
