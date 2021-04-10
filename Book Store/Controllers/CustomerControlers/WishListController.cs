@@ -79,8 +79,6 @@ namespace Book_Store.Controllers.CustomerControlers
                 {
                     IEnumerable<Claim> claims = identity.Claims;
                     string CustomerID = claims.Where(p => p.Type == "CustomerID").FirstOrDefault()?.Value;
-                    string UserType = claims.Where(p => p.Type == "UserType").FirstOrDefault()?.Value;
-
                     ICollection<CustomerWishList> WishList = customerWishListBL.RemoveBookFromWishList(CustomerID, BookID);
                     if (WishList != null)
                     {
