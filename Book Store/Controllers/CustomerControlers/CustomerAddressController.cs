@@ -25,7 +25,7 @@ namespace Book_Store.Controllers.CustomerControlers
             this.CustomerAddressBL  = CustomerAddressBL;
         }
 
-        [HttpPost("Address/Add")]
+        [HttpPost]
         public IActionResult AddCustomerAddress(CustomerAddress address)
         {
             if (address == null)
@@ -58,7 +58,7 @@ namespace Book_Store.Controllers.CustomerControlers
             }
         }
 
-        [HttpDelete("Address/Delete/{AddressID}")]
+        [HttpDelete("{AddressID}")]
         public IActionResult AddCustomerAddress(long AddressID)
         {
             try

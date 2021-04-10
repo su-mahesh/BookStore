@@ -21,7 +21,7 @@ namespace Book_Store.Controllers.AdminController
         {
             this.bookManagementBL = bookManagementBL;
         }
-        [HttpPost("Add")]
+        [HttpPost]
         public IActionResult AddCustomerAddress(RequestBook Book)
         {
             if (Book == null)

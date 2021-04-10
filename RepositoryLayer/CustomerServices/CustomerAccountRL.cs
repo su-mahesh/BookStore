@@ -118,6 +118,10 @@ namespace RepositoryLayer.CustomerServices
                 CustomerAccount customer = new CustomerAccount();
                 SqlDataReader rd = cmd.ExecuteReader();
                 var result = returnParameter.Value;
+                if (result != null && result.Equals(2))
+                {
+                    throw new Exception("Email already registered");
+                }
                 if (rd.Read())
                 {
                     customer.CustomerID = rd["CustomerID"] == DBNull.Value ? default : rd.GetString("CustomerID");
@@ -126,10 +130,7 @@ namespace RepositoryLayer.CustomerServices
                     customer.Email = rd["Email"] == DBNull.Value ? default : rd.GetString("Email");
                     customer.PhoneNumber = rd["PhoneNumber"] == DBNull.Value ? default : rd.GetInt64("PhoneNumber");
                 }
-                if (result!= null && result.Equals(2))
-                {
-                    throw new Exception("Email already registered");
-                }
+
                 return customer;
             }
             catch (Exception)

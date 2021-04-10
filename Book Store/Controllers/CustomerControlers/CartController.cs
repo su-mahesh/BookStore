@@ -23,7 +23,7 @@ namespace Book_Store.Controllers.CustomerControlers
             this.customerCartBL = customerCartBL;
         }
 
-        [HttpPost("Add/{BookID}")]
+        [HttpPost("{BookID}")]
         public IActionResult AddBookToCart(long BookID) 
         {
             try
