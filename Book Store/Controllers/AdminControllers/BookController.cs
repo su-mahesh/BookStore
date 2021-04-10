@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using BusinessLayer.AdminInterfaces;
 using CommonLayer.RequestModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -13,6 +14,7 @@ namespace Book_Store.Controllers.AdminController
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = Role.Admin)]
     public class BookController : ControllerBase
     {
         private readonly IConfiguration config;
@@ -36,13 +38,10 @@ namespace Book_Store.Controllers.AdminController
                     IEnumerable<Claim> claims = identity.Claims;
                     string CustomerID = claims.Where(p => p.Type == "CustomerID").FirstOrDefault()?.Value;
                     string UserType = claims.Where(p => p.Type == "UserType").FirstOrDefault()?.Value;
-                    if (UserType.Equals("Admin"))
+                    bool result = bookManagementBL.AddBook(Book);
+                    if (result)
                     {
-                        bool result = bookManagementBL.AddBook(Book);
-                        if (result)
-                        {
-                            return Ok(new { success = true, Message = "book added", result });
-                        }
+                        return Ok(new { success = true, Message = "book added", result });
                     }
                 }
                 return BadRequest(new { success = false, Message = "book adding Unsuccessful" });

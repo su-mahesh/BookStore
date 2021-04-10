@@ -30,9 +30,9 @@ namespace BusinessLayer.JWTAuthentication
         {
             DateTime ExpireTime = DateTime.Now.AddMinutes(120);
             IEnumerable<Claim> Claims = new Claim[] {
-                new Claim("UserType", "Customer"),
+                new Claim(ClaimTypes.Role, "Customer"),
                 new Claim("CustomerID", userInfo.CustomerID.ToString()),
-                new Claim("Email", userInfo.Email) };
+                new Claim( "Email", userInfo.Email) };
             return GenerateJSONWebToken(ExpireTime, Claims);
         }
 
@@ -40,7 +40,7 @@ namespace BusinessLayer.JWTAuthentication
         {
             DateTime ExpireTime = DateTime.Now.AddMinutes(120);
             IEnumerable<Claim> Claims = new Claim[] {
-                new Claim("UserType", "Admin"),
+                new Claim(ClaimTypes.Role, "Admin"),
                 new Claim("AdminID", userInfo.AdminID.ToString()),
                 new Claim("Email", userInfo.Email) };
             return GenerateJSONWebToken(ExpireTime, Claims);

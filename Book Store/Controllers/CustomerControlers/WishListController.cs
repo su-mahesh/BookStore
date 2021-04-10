@@ -13,7 +13,7 @@ namespace Book_Store.Controllers.CustomerControlers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [Authorize(Roles = Role.Customer)]
     public class WishListController : ControllerBase
     {
         readonly ICustomerWishListBL customerWishListBL;
@@ -33,14 +33,10 @@ namespace Book_Store.Controllers.CustomerControlers
                 {
                     IEnumerable<Claim> claims = identity.Claims;
                     string CustomerID = claims.Where(p => p.Type == "CustomerID").FirstOrDefault()?.Value;
-                    string UserType = claims.Where(p => p.Type == "UserType").FirstOrDefault()?.Value;
-                    if (UserType.Equals("Customer"))
+                    ICollection<CustomerWishList> WishList = customerWishListBL.AddBookToWishList(CustomerID, BookID);
+                    if (WishList != null)
                     {
-                        ICollection<CustomerWishList> WishList = customerWishListBL.AddBookToWishList(CustomerID, BookID);
-                        if (WishList != null)
-                        {
-                            return Ok(new { success = true, Message = "book added to WishList", WishList });
-                        }
+                        return Ok(new { success = true, Message = "book added to WishList", WishList });
                     }
                 }
                 return BadRequest(new { success = false, Message = "book add to WishList Unsuccessful" });
@@ -61,13 +57,11 @@ namespace Book_Store.Controllers.CustomerControlers
                     IEnumerable<Claim> claims = identity.Claims;
                     string CustomerID = claims.Where(p => p.Type == "CustomerID").FirstOrDefault()?.Value;
                     string UserType = claims.Where(p => p.Type == "UserType").FirstOrDefault()?.Value;
-                    if (UserType.Equals("Customer"))
+
+                    ICollection<CustomerWishList> WishList = customerWishListBL.RemoveBookFromWishList(CustomerID, BookID);
+                    if (WishList != null)
                     {
-                        ICollection<CustomerWishList> WishList = customerWishListBL.RemoveBookFromWishList(CustomerID, BookID);
-                        if (WishList != null)
-                        {
-                            return Ok(new { success = true, Message = "Book removed From WishList", WishList });
-                        }
+                        return Ok(new { success = true, Message = "Book removed From WishList", WishList });
                     }
                 }
                 return BadRequest(new { success = false, Message = "Book remove from WishList Unsuccessful" });

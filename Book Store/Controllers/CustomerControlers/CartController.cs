@@ -13,7 +13,7 @@ namespace Book_Store.Controllers.CustomerControlers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [Authorize(Roles = Role.Customer)]
     public class CartController : ControllerBase
     {
         ICustomerCartBL customerCartBL;
@@ -33,14 +33,10 @@ namespace Book_Store.Controllers.CustomerControlers
                 {
                     IEnumerable<Claim> claims = identity.Claims;
                     string CustomerID = claims.Where(p => p.Type == "CustomerID").FirstOrDefault()?.Value;
-                    string UserType = claims.Where(p => p.Type == "UserType").FirstOrDefault()?.Value;
-                    if (UserType.Equals("Customer"))
+                    ICollection<CustomerCart> cart = customerCartBL.AddBookToCart(CustomerID, BookID);
+                    if (cart != null)
                     {
-                        ICollection<CustomerCart> cart = customerCartBL.AddBookToCart(CustomerID, BookID);
-                        if (cart != null)
-                        {
-                            return Ok(new { success = true, Message = "book added to cart", cart });
-                        }
+                        return Ok(new { success = true, Message = "book added to cart", cart });
                     }
                 }
                 return BadRequest(new { success = false, Message = "book add to cart Unsuccessful" });
@@ -61,15 +57,11 @@ namespace Book_Store.Controllers.CustomerControlers
                 {
                     IEnumerable<Claim> claims = identity.Claims;
                     string CustomerID = claims.Where(p => p.Type == "CustomerID").FirstOrDefault()?.Value;
-                    string UserType = claims.Where(p => p.Type == "UserType").FirstOrDefault()?.Value;
-                    if (UserType.Equals("Customer"))
+                    ICollection<CustomerCart> cart = customerCartBL.RemoveBookFromCart(CustomerID, BookID);
+                    if (cart != null)
                     {
-                        ICollection<CustomerCart> cart = customerCartBL.RemoveBookFromCart(CustomerID, BookID);
-                        if (cart != null)
-                        {
-                            return Ok(new { success = true, Message = "book removed from cart", cart });
-                        }
-                    }
+                        return Ok(new { success = true, Message = "book removed from cart", cart });
+                    } 
                 }
                 return BadRequest(new { success = false, Message = "book removed from cart Unsuccessful" });
             }

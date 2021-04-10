@@ -95,7 +95,7 @@ namespace Book_Store.Controllers.Account
                 return BadRequest(new { success = false, exception.Message });
             }
         }
-        [Authorize]
+        [Authorize(Roles = Role.Customer)]
         [HttpPost("ResetPassword")]
         public IActionResult ResetPassword(ResetPasswordModel resetPasswordModel)
         {

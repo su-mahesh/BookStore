@@ -46,7 +46,15 @@ namespace Book_Store
             services.AddTransient<ICustomerCartRL, CustomerCartRL>();
             services.AddTransient<ICustomerWishListBL, CustomerWishListBL>();
             services.AddTransient<ICustomerWishListRL, CustomerWishListRL>();
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("RequireAdministratorRole",
+                     policy => policy.RequireRole("Administrator"));
+                options.AddPolicy("RequireCustomerRole",
+                     policy => policy.RequireRole("Customer"));
+            });
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => {
+                options.SaveToken = true;
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuer = false,

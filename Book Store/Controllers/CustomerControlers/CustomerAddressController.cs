@@ -15,7 +15,7 @@ namespace Book_Store.Controllers.CustomerControlers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [Authorize(Roles = Role.Customer)]
     public class CustomerAddressController : ControllerBase
     {
         private readonly ICustomerAddressBL CustomerAddressBL;
@@ -39,16 +39,13 @@ namespace Book_Store.Controllers.CustomerControlers
                 {
                     IEnumerable<Claim> claims = identity.Claims;
                     string CustomerID = claims.Where(p => p.Type == "CustomerID").FirstOrDefault()?.Value;
-                    string UserType = claims.Where(p => p.Type == "UserType").FirstOrDefault()?.Value;
-                    if (UserType.Equals("Customer"))
+                    address.CustomerID = CustomerID;
+                    bool result = CustomerAddressBL.AddCustomerAddress(address);
+                    if (result)
                     {
-                        address.CustomerID = CustomerID;
-                        bool result = CustomerAddressBL.AddCustomerAddress(address);
-                        if (result)
-                        {
-                            return Ok(new { success = true, Message = "Customer address added", result });
-                        }
+                        return Ok(new { success = true, Message = "Customer address added", result });
                     }
+
                 }
                 return BadRequest(new { success = false, Message = "Customer address adding Unsuccessful" });
             }
@@ -69,13 +66,10 @@ namespace Book_Store.Controllers.CustomerControlers
                     IEnumerable<Claim> claims = identity.Claims;
                     string CustomerID = claims.Where(p => p.Type == "CustomerID").FirstOrDefault()?.Value;
                     string UserType = claims.Where(p => p.Type == "UserType").FirstOrDefault()?.Value;
-                    if (UserType.Equals("Customer"))
+                    bool result = CustomerAddressBL.DeleteCustomerAddress(CustomerID, AddressID);
+                    if (result)
                     {
-                        bool result = CustomerAddressBL.DeleteCustomerAddress(CustomerID, AddressID);
-                        if (result)
-                        {
-                            return Ok(new { success = true, Message = "Customer address deleted", result });
-                        }
+                        return Ok(new { success = true, Message = "Customer address deleted", result });
                     }
                 }
                 return BadRequest(new { success = false, Message = "Customer address delete Unsuccessful" });
