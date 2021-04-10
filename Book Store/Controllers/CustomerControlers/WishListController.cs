@@ -22,6 +22,29 @@ namespace Book_Store.Controllers.CustomerControlers
         {
             this.customerWishListBL = customerWishListBL;
         }
+        [HttpGet]
+        public IActionResult AddBookToWishList()
+        {
+            try
+            {
+                var identity = User.Identity as ClaimsIdentity;
+                if (identity != null)
+                {
+                    IEnumerable<Claim> claims = identity.Claims;
+                    string CustomerID = claims.Where(p => p.Type == "CustomerID").FirstOrDefault()?.Value;
+                    ICollection<CustomerWishList> WishList = customerWishListBL.GetWishList(CustomerID);
+                    if (WishList != null)
+                    {
+                        return Ok(new { success = true, WishList });
+                    }
+                }
+                return BadRequest(new { success = false, Message = "wish list is empty" });
+            }
+            catch (Exception exception)
+            {
+                return BadRequest(new { success = false, exception.Message });
+            }
+        }
 
         [HttpPost("{BookID}")]
         public IActionResult AddBookToWishList(long BookID)

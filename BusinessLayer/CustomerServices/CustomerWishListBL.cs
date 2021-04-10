@@ -14,6 +14,19 @@ namespace BusinessLayer.CustomerServices
         {
             this.customerWishListRL = customerWishListRL;
         }
+
+        public ICollection<CustomerWishList> GetWishList(string CustomerID)
+        {
+            try
+            {
+                var result = customerWishListRL.GetWishList(CustomerID);
+                return result;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
         public ICollection<CustomerWishList> AddBookToWishList(string CustomerID, long BookID)
         {
             try

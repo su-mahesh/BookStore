@@ -16,6 +16,7 @@ namespace RepositoryLayer.CustomerServices
         readonly string sqlConnectString;
         readonly string InsertBookToWishListSQL = "InsertBookToWishList";
         readonly string RemoveBookFromWishListSQL = "RemoveBookFromWishList";
+        readonly string GetWishListSQL = "GetWishList";
 
         public CustomerWishListRL(IConfiguration config)
         {
@@ -24,6 +25,36 @@ namespace RepositoryLayer.CustomerServices
             connection.ConnectionString = sqlConnectString + "Connection Timeout=30;Connection Lifetime=0;Min Pool Size=0;Max Pool Size=100;Pooling=true;";
         }
 
+        public ICollection<CustomerWishList> GetWishList(string CustomerID)
+        {
+            try
+            {
+                connection.Open();
+                SqlCommand cmd = new SqlCommand(GetWishListSQL, connection)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+                cmd.Parameters.AddWithValue("CustomerID", CustomerID);
+                SqlDataReader rd = cmd.ExecuteReader();
+                ICollection<CustomerWishList> WishList = new List<CustomerWishList>();
+                CustomerWishList Book;
+                while (rd.Read())
+                {
+                    Book = new CustomerWishList();
+                    Book.BookID = rd["BookID"] == DBNull.Value ? default : rd.GetInt64("BookID");
+                    Book.BookPrice = rd["BookPrice"] == DBNull.Value ? default : rd.GetInt32("BookPrice");
+                    Book.WishListID = rd["WishListID"] == DBNull.Value ? default : rd.GetInt64("WishListID");
+                    Book.BookName = rd["BookName"] == DBNull.Value ? default : rd.GetString("BookName");
+                    Book.CustomerID = rd["CustomerID"] == DBNull.Value ? default : rd.GetString("CustomerID");
+                    WishList.Add(Book);
+                }
+                return WishList;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
         public ICollection<CustomerWishList> AddBookToWishList(string CustomerID, long BookID)
         {
             try
