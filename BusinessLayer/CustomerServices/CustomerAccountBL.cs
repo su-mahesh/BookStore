@@ -12,7 +12,6 @@ namespace BusinessLayer.CustomerServices
     public class CustomerAccountBL : ICustomerAccountBL
     {
         private readonly ICustomerAccountRL customerAccountRL;
-        private readonly IConfiguration config;
         UserAuthenticationJWT AuthJWT;
         PasswordEncryption passwordEncryption = new PasswordEncryption();
         MSMQService MSMQ;
@@ -20,8 +19,7 @@ namespace BusinessLayer.CustomerServices
         public CustomerAccountBL(ICustomerAccountRL customerAccountRL, IConfiguration config)
         {
             this.customerAccountRL = customerAccountRL;
-            this.config = config;
-            AuthJWT = new UserAuthenticationJWT(this.config);
+            AuthJWT = new UserAuthenticationJWT(config);
             MSMQ = new MSMQService(config);
         }
 

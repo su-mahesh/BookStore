@@ -36,20 +36,20 @@ namespace Book_Store
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<ICustomerAccountBL, CustomerAccountBL>();
-            services.AddTransient<ICustomerAccountRL, CustomerAccountRL>();
-            services.AddTransient<IAdminAccountBL, AdminAccountBL>();
-            services.AddTransient<IAdminAccountRL, AdminAccountRL>();
-            services.AddTransient<ICustomerAddressBL, CustomerAddressBL>();
-            services.AddTransient<ICustomerAddressRL, CustomerAddressRL>();
-            services.AddTransient<IBookManagementBL, BookManagementBL>();
-            services.AddTransient<IBookManagementRL, BookManagementRL>();
-            services.AddTransient<ICustomerCartBL, CustomerCartBL>();
-            services.AddTransient<ICustomerCartRL, CustomerCartRL>();
-            services.AddTransient<ICustomerWishListBL, CustomerWishListBL>();
-            services.AddTransient<ICustomerWishListRL, CustomerWishListRL>();
-            services.AddTransient<ICustomerOrderBL, CustomerOrderBL>();
-            services.AddTransient<ICustomerOrderRL, CustomerOrderRL>();
+            services.AddSingleton<ICustomerAccountBL, CustomerAccountBL>();
+            services.AddSingleton<ICustomerAccountRL, CustomerAccountRL>();
+            services.AddSingleton<IAdminAccountBL, AdminAccountBL>();
+            services.AddSingleton<IAdminAccountRL, AdminAccountRL>();
+            services.AddSingleton<ICustomerAddressBL, CustomerAddressBL>();
+            services.AddSingleton<ICustomerAddressRL, CustomerAddressRL>();
+            services.AddSingleton<IBookManagementBL, BookManagementBL>();
+            services.AddSingleton<IBookManagementRL, BookManagementRL>();
+            services.AddSingleton<ICustomerCartBL, CustomerCartBL>();
+            services.AddSingleton<ICustomerCartRL, CustomerCartRL>();
+            services.AddSingleton<ICustomerWishListBL, CustomerWishListBL>();
+            services.AddSingleton<ICustomerWishListRL, CustomerWishListRL>();
+            services.AddSingleton<ICustomerOrderBL, CustomerOrderBL>();
+            services.AddSingleton<ICustomerOrderRL, CustomerOrderRL>();
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("RequireAdministratorRole",

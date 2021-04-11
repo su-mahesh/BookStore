@@ -10,8 +10,6 @@ namespace RepositoryLayer.CustomerServices
 {
     public class CustomerAccountRL : ICustomerAccountRL
     {
-        private readonly IConfiguration config;
-        readonly DatabaseConnection dbConnection;
         readonly SqlConnection connection = new SqlConnection();
         readonly string sqlConnectString;
         readonly string InsertCustomerRecordSQL = "InsertCustomerRecord";
@@ -22,8 +20,6 @@ namespace RepositoryLayer.CustomerServices
 
         public CustomerAccountRL(IConfiguration config)
         {
-            this.config = config;
-            dbConnection = new DatabaseConnection(this.config);
             sqlConnectString = config.GetConnectionString("BookStoreConnection");
             connection.ConnectionString = sqlConnectString + "Connection Timeout=30;Connection Lifetime=0;Min Pool Size=0;Max Pool Size=100;Pooling=true;";
         }
@@ -52,6 +48,10 @@ namespace RepositoryLayer.CustomerServices
             {
 
                 throw;
+            }
+            finally
+            {
+                connection.Close();
             }
         }
 
@@ -96,6 +96,10 @@ namespace RepositoryLayer.CustomerServices
 
                 throw;
             }
+            finally
+            {
+                connection.Close();
+            }
         }
 
         public CustomerAccount RegisterCustomer(RegisterCustomerAccount registerCustomerAccount)
@@ -138,6 +142,10 @@ namespace RepositoryLayer.CustomerServices
 
                 throw;
             }
+            finally
+            {
+                connection.Close();
+            }
         }
 
         public bool ResetCustomerAccountPassword(ResetPasswordModel resetPasswordModel)
@@ -167,6 +175,10 @@ namespace RepositoryLayer.CustomerServices
             catch (Exception)
             {
                 throw;
+            }
+            finally
+            {
+                connection.Close();
             }
         }
     }

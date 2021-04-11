@@ -14,13 +14,11 @@ namespace RepositoryLayer
     {
         readonly SqlConnection connection = new SqlConnection();
         readonly string sqlConnectString;
-        private readonly IConfiguration config;
         readonly string InserBookRecordSQL = "InserBookRecord";
         readonly string GetBookRecordSQL = "GetBookRecord";
 
         public BookManagementRL(IConfiguration config)
         {
-            this.config = config;
             sqlConnectString = config.GetConnectionString("BookStoreConnection");
             connection.ConnectionString = sqlConnectString + "Connection Timeout=30;Connection Lifetime=0;Min Pool Size=0;Max Pool Size=100;Pooling=true;";
         }
@@ -54,6 +52,10 @@ namespace RepositoryLayer
 
                 throw;
             }
+            finally
+            {
+                connection.Close();
+            }
         }
 
         public ICollection<ResponseBook> GetBooks()
@@ -86,6 +88,10 @@ namespace RepositoryLayer
             {
 
                 throw;
+            }
+            finally
+            {
+                connection.Close();
             }
         }
     }

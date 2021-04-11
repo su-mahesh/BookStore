@@ -54,6 +54,10 @@ namespace RepositoryLayer.CustomerServices
             {
                 throw;
             }
+            finally
+            {
+                connection.Close();
+            }
         }
         public ICollection<CustomerWishList> AddBookToWishList(string CustomerID, long BookID)
         {
@@ -87,6 +91,10 @@ namespace RepositoryLayer.CustomerServices
             catch (Exception)
             {
                 throw;
+            }
+            finally
+            {
+                connection.Close();
             }
         }
 
@@ -122,6 +130,10 @@ namespace RepositoryLayer.CustomerServices
             catch (Exception)
             {
                 throw;
+            }
+            finally
+            {
+                connection.Close();
             }
         }
     }

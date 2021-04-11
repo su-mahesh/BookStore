@@ -15,12 +15,11 @@ namespace Book_Store.Controllers.Account
     [ApiController]
     public class CustomerAccountController : ControllerBase
     {
-        private readonly IConfiguration config;
         private readonly ICustomerAccountBL CustomerAccountBL;
 
-        public CustomerAccountController(IConfiguration config, ICustomerAccountBL customerAccountBL)
+        public CustomerAccountController( ICustomerAccountBL customerAccountBL)
         {
-            this.config = config;
+          //  this.config = config;
             CustomerAccountBL = customerAccountBL;
         }
 

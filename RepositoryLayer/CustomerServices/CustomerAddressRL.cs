@@ -57,6 +57,10 @@ namespace RepositoryLayer.CustomerServices
 
                 throw;
             }
+            finally
+            {
+                connection.Close();
+            }
         }
 
         public bool DeleteCustomerAddress(string customerID, long addressID)
@@ -84,6 +88,10 @@ namespace RepositoryLayer.CustomerServices
             {
 
                 throw;
+            }
+            finally
+            {
+                connection.Close();
             }
         }
 
@@ -121,6 +129,10 @@ namespace RepositoryLayer.CustomerServices
             {
 
                 throw;
+            }
+            finally
+            {
+                connection.Close();
             }
         }
     }

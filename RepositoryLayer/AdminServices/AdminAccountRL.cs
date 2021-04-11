@@ -60,6 +60,10 @@ namespace RepositoryLayer.AdminServices
 
                 throw;
             }
+            finally
+            {
+                connection.Close();
+            }
         }
     }
 }

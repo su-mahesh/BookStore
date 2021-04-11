@@ -58,6 +58,10 @@ namespace RepositoryLayer.CustomerServices
 
                 throw;
             }
+            finally
+            {
+                connection.Close();
+            }
         }
 
         public ICollection<CustomerCart> GetCart(string CustomerID)
@@ -89,6 +93,10 @@ namespace RepositoryLayer.CustomerServices
             {
 
                 throw;
+            }
+            finally
+            {
+                connection.Close();
             }
         }
 
@@ -125,6 +133,10 @@ namespace RepositoryLayer.CustomerServices
             {
 
                 throw;
+            }
+            finally
+            {
+                connection.Close();
             }
         }
     }

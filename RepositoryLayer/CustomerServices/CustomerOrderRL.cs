@@ -55,6 +55,10 @@ namespace RepositoryLayer.CustomerServices
             {
                 throw;
             }
+            finally
+            {
+                connection.Close();
+            }
         }
     }
 }
