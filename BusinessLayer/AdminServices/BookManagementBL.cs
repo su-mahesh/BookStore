@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using BusinessLayer.AdminInterfaces;
 using CommonLayer.RequestModel;
+using CommonLayer.ResponseModel;
 using RepositoryLayer.AdminInterfaces;
 
 namespace BusinessLayer.AdminServices
@@ -21,6 +22,19 @@ namespace BusinessLayer.AdminServices
             try
             {
                return bookManagementRL.AddBook(book);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public ICollection<ResponseBook> GetBooks()
+        {
+            try
+            {
+                return bookManagementRL.GetBooks();
             }
             catch (Exception)
             {

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace CommonLayer.RequestModel
+namespace CommonLayer.ResponseModel
 {
-    public class RequestBook
+    public class ResponseBook
     {
         public long BookID { get; set; }
         public string BookName { get; set; }

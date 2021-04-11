@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Text;
 using CommonLayer.RequestModel;
+using CommonLayer.ResponseModel;
 using Microsoft.Extensions.Configuration;
 using RepositoryLayer.AdminInterfaces;
 
@@ -15,6 +16,7 @@ namespace RepositoryLayer.AdminServices
         readonly string sqlConnectString;
         private readonly IConfiguration config;
         readonly string InserBookRecordSQL = "InserBookRecord";
+        readonly string GetBookRecordSQL = "GetBookRecord";
 
         public BookManagementRL(IConfiguration config)
         {
@@ -35,6 +37,7 @@ namespace RepositoryLayer.AdminServices
                 cmd.Parameters.AddWithValue("BookDiscription", book.BookDiscription);
                 cmd.Parameters.AddWithValue("BookImage", book.BookImage);
                 cmd.Parameters.AddWithValue("BookPrice", book.BookPrice);
+                cmd.Parameters.AddWithValue("BookQuantity", book.Quantity);
                 cmd.Parameters.AddWithValue("AuthorName", book.AuthorName);
                 var returnParameter = cmd.Parameters.Add("@Result", SqlDbType.Int);
                 returnParameter.Direction = ParameterDirection.ReturnValue;
@@ -45,6 +48,39 @@ namespace RepositoryLayer.AdminServices
                     return true;
                 }
                 return false;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public ICollection<ResponseBook> GetBooks()
+        {
+            try
+            {
+                ResponseBook Book;
+                ICollection<ResponseBook> Books = new List<ResponseBook>();
+                connection.Open();
+                SqlCommand cmd = new SqlCommand(GetBookRecordSQL, connection)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+                SqlDataReader rd = cmd.ExecuteReader();
+                while (rd.Read())
+                {
+                    Book = new ResponseBook();
+                    Book.BookID = rd["BookID"] == DBNull.Value ? default : rd.GetInt64("BookID");
+                    Book.BookDiscription = rd["BookDiscription"] == DBNull.Value ? default : rd.GetString("BookDiscription");
+                    Book.BookPrice = rd["BookPrice"] == DBNull.Value ? default : rd.GetInt32("BookPrice");
+                    Book.BookName = rd["BookName"] == DBNull.Value ? default : rd.GetString("BookName");
+                    Book.AuthorName = rd["AuthorName"] == DBNull.Value ? default : rd.GetString("AuthorName");
+                    Book.BookImage = rd["BookImage"] == DBNull.Value ? default : rd.GetString("BookImage");
+                    Book.Quantity = rd["BookQuantity"] == DBNull.Value ? default : rd.GetInt32("BookQuantity");
+                    Books.Add(Book);
+                }
+                return Books;
             }
             catch (Exception)
             {

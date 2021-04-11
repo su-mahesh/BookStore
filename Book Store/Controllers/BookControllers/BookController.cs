@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using BusinessLayer.AdminInterfaces;
 using CommonLayer.RequestModel;
+using CommonLayer.ResponseModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,7 +15,6 @@ namespace Book_Store.Controllers.AdminController
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = Role.Admin)]
     public class BookController : ControllerBase
     {
         private readonly IConfiguration config;
@@ -23,8 +23,9 @@ namespace Book_Store.Controllers.AdminController
         {
             this.bookManagementBL = bookManagementBL;
         }
+        [Authorize(Roles = Role.Admin)]
         [HttpPost]
-        public IActionResult AddCustomerAddress(RequestBook Book)
+        public IActionResult AddBook(RequestBook Book)
         {
             if (Book == null)
             {
@@ -36,8 +37,6 @@ namespace Book_Store.Controllers.AdminController
                 if (identity != null)
                 {
                     IEnumerable<Claim> claims = identity.Claims;
-                    string CustomerID = claims.Where(p => p.Type == "CustomerID").FirstOrDefault()?.Value;
-                    string UserType = claims.Where(p => p.Type == "UserType").FirstOrDefault()?.Value;
                     bool result = bookManagementBL.AddBook(Book);
                     if (result)
                     {
@@ -51,6 +50,29 @@ namespace Book_Store.Controllers.AdminController
                 return BadRequest(new { success = false, exception.Message });
             }
         }
+        [Authorize(Roles = Role.Customer)]
+        [HttpGet]
+        public IActionResult GetBooks()
+        {
+            try
+            {
+                var identity = User.Identity as ClaimsIdentity;
+                if (identity != null)
+                {
+                    ICollection<ResponseBook> books = bookManagementBL.GetBooks();
+                    if (books != null)
+                    {
+                        return Ok(new { success = true, Message = "books fetched", books });
+                    }
+                }
+                return BadRequest(new { success = false, Message = "books fetch Unsuccessful" });
+            }
+            catch (Exception exception)
+            {
+                return BadRequest(new { success = false, exception.Message });
+            }
+        }
+
 
     }
 }

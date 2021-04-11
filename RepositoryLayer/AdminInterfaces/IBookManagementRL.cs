@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 using CommonLayer.RequestModel;
+using CommonLayer.ResponseModel;
 
 namespace RepositoryLayer.AdminInterfaces
 {
     public interface IBookManagementRL
     {
         bool AddBook(RequestBook book);
+        ICollection<ResponseBook> GetBooks();
     }
 }
