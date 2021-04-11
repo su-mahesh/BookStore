@@ -4,9 +4,10 @@ using System.Text;
 using BusinessLayer.AdminInterfaces;
 using CommonLayer.RequestModel;
 using CommonLayer.ResponseModel;
+using RepositoryLayer;
 using RepositoryLayer.AdminInterfaces;
 
-namespace BusinessLayer.AdminServices
+namespace BusinessLayer
 {
     public class BookManagementBL : IBookManagementBL
     {

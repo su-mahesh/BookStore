@@ -4,9 +4,9 @@ using System.Text;
 using CommonLayer.RequestModel;
 using CommonLayer.ResponseModel;
 
-namespace RepositoryLayer.AdminInterfaces
+namespace BusinessLayer
 {
-    public interface IBookManagementRL
+    public interface IBookManagementBL
     {
         bool AddBook(RequestBook book);
         ICollection<ResponseBook> GetBooks();

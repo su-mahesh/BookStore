@@ -8,7 +8,7 @@ using CommonLayer.ResponseModel;
 using Microsoft.Extensions.Configuration;
 using RepositoryLayer.AdminInterfaces;
 
-namespace RepositoryLayer.AdminServices
+namespace RepositoryLayer
 {
     public class BookManagementRL : IBookManagementRL
     {
