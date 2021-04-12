@@ -67,7 +67,7 @@ namespace Book_Store.Controllers.AdminController
                 return BadRequest(new { success = false, exception.Message });
             }
         }
-        [AllowAnonymous]
+        [Authorize(Roles = Role.Admin)]
         [HttpDelete("BookID")]
         public IActionResult DeleteBook(long BookID) 
         {
