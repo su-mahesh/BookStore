@@ -16,6 +16,7 @@ namespace RepositoryLayer
         readonly string sqlConnectString;
         readonly string InserBookRecordSQL = "InserBookRecord";
         readonly string GetBookRecordSQL = "GetBookRecord";
+        readonly string DeleteBookRecordSQL = "DeleteBookRecord";
 
         public BookManagementRL(IConfiguration config)
         {
@@ -46,6 +47,34 @@ namespace RepositoryLayer
                     return true;
                 }
                 return false;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+
+        public bool DeleteBook(long bookID)
+        {
+            try
+            {
+                ICollection<ResponseBook> Books = new List<ResponseBook>();
+                connection.Open();
+                SqlCommand cmd = new SqlCommand(DeleteBookRecordSQL, connection)
+                {
+                    CommandType = CommandType.StoredProcedure
+                };
+                cmd.Parameters.AddWithValue("BookID", bookID);
+                var returnParameter = cmd.Parameters.Add("@Result", SqlDbType.Int);
+                returnParameter.Direction = ParameterDirection.ReturnValue;
+                cmd.ExecuteNonQuery();
+                var result = returnParameter.Value;
+                return result.Equals(1);
             }
             catch (Exception)
             {

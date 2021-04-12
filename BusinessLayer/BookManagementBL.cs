@@ -31,6 +31,19 @@ namespace BusinessLayer
             }
         }
 
+        public bool DeleteBook(long bookID)
+        {
+            try
+            {
+                return bookManagementRL.DeleteBook(bookID);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         public ICollection<ResponseBook> GetBooks()
         {
             try

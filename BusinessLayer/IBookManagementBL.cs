@@ -10,5 +10,6 @@ namespace BusinessLayer
     {
         bool AddBook(RequestBook book);
         ICollection<ResponseBook> GetBooks();
+        bool DeleteBook(long bookID);
     }
 }

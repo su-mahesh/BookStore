@@ -67,7 +67,27 @@ namespace Book_Store.Controllers.AdminController
                 return BadRequest(new { success = false, exception.Message });
             }
         }
-
-
+        [AllowAnonymous]
+        [HttpDelete("BookID")]
+        public IActionResult DeleteBook(long BookID) 
+        {
+            try
+            {
+                var identity = User.Identity as ClaimsIdentity;
+                if (identity != null)
+                {
+                    bool result = bookManagementBL.DeleteBook(BookID);
+                    if (result)
+                    {
+                        return Ok(new { success = true, Message = "books deleted", result });
+                    }
+                }
+                return BadRequest(new { success = false, Message = "book delete Unsuccessful" });
+            }
+            catch (Exception exception)
+            {
+                return BadRequest(new { success = false, exception.Message });
+            }
+        }
     }
 }
