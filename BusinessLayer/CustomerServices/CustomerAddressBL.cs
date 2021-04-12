@@ -17,7 +17,7 @@ namespace BusinessLayer.CustomerServices
             this.customerAddressRL = customerAddressRL;
         }
 
-        public bool AddCustomerAddress(CustomerAddress address)
+        public CustomerAddressResponse AddCustomerAddress(CustomerAddress address)
         {
             try
             {
@@ -46,6 +46,18 @@ namespace BusinessLayer.CustomerServices
             try
             {
                 return customerAddressRL.GetAllCustomerAddress(customerID); ;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public CustomerAddressResponse UpdateCustomerAddress(CustomerAddress address)
+        {
+            try
+            {
+                return customerAddressRL.UpdateCustomerAddress(address); ;
             }
             catch (Exception)
             {

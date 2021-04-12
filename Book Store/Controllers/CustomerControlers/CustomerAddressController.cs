@@ -40,10 +40,10 @@ namespace Book_Store.Controllers.CustomerControlers
                     IEnumerable<Claim> claims = identity.Claims;
                     string CustomerID = claims.Where(p => p.Type == "CustomerID").FirstOrDefault()?.Value;
                     address.CustomerID = CustomerID;
-                    bool result = CustomerAddressBL.AddCustomerAddress(address);
-                    if (result)
+                    CustomerAddressResponse result = CustomerAddressBL.AddCustomerAddress(address);
+                    if (result != null)
                     {
-                        return Ok(new { success = true, Message = "Customer address added", result });
+                        return Ok(new { success = true, Message = "Customer address added" });
                     }
 
                 }
@@ -69,7 +69,7 @@ namespace Book_Store.Controllers.CustomerControlers
                     bool result = CustomerAddressBL.DeleteCustomerAddress(CustomerID, AddressID);
                     if (result)
                     {
-                        return Ok(new { success = true, Message = "Customer address deleted", result });
+                        return Ok(new { success = true, Message = "Customer address deleted" });
                     }
                 }
                 return BadRequest(new { success = false, Message = "Customer address delete Unsuccessful" });
@@ -100,6 +100,35 @@ namespace Book_Store.Controllers.CustomerControlers
                     }
                 }
                 return BadRequest(new { success = false, Message = "Customer address fetch Unsuccessful" });
+            }
+            catch (Exception exception)
+            {
+                return BadRequest(new { success = false, exception.Message });
+            }
+        }
+        [HttpPut]
+        public IActionResult UpdateAddress(CustomerAddress address)
+        {
+            if (address == null)
+            {
+                return BadRequest("address is null.");
+            }
+            try
+            {
+                var identity = User.Identity as ClaimsIdentity;
+                if (identity != null)
+                {
+                    IEnumerable<Claim> claims = identity.Claims;
+                    string CustomerID = claims.Where(p => p.Type == "CustomerID").FirstOrDefault()?.Value;
+                    address.CustomerID = CustomerID;
+                    CustomerAddressResponse result = CustomerAddressBL.UpdateCustomerAddress(address);
+                    if (result != null)
+                    {
+                        return Ok(new { success = true, Message = "Customer address updated" });
+                    }
+
+                }
+                return BadRequest(new { success = false, Message = "Customer address update Unsuccessful" });
             }
             catch (Exception exception)
             {
