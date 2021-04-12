@@ -37,7 +37,6 @@ namespace Book_Store.Controllers.CustomerControlers
                     {
                         return Ok(new { success = true, cart });
                     }
-
                 }
                 return BadRequest(new { success = false, Message = "cart empty" });
             }
