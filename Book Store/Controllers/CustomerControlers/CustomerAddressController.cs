@@ -90,14 +90,12 @@ namespace Book_Store.Controllers.CustomerControlers
                     IEnumerable<Claim> claims = identity.Claims;
                     string CustomerID = claims.Where(p => p.Type == "CustomerID").FirstOrDefault()?.Value;
                     string UserType = claims.Where(p => p.Type == "UserType").FirstOrDefault()?.Value;
-                    if (UserType.Equals("Customer"))
-                    {
+
                         ICollection<CustomerAddressResponse> address = CustomerAddressBL.GetAllCustomerAddress(CustomerID);
                         if (address != null)
                         {
                             return Ok(new { success = true, Message = "Customer address fetched", address });
                         }
-                    }
                 }
                 return BadRequest(new { success = false, Message = "Customer address fetch Unsuccessful" });
             }

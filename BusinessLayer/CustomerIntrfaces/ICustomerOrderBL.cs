@@ -7,6 +7,6 @@ namespace BusinessLayer.CustomerIntrfaces
 {
     public interface ICustomerOrderBL
     {
-        public CustomerOrder PlaceOrder(string CustomerID);
+        public CustomerOrder PlaceOrder(string CustomerID, long AddressID);
     }
 }

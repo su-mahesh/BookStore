@@ -23,7 +23,7 @@ namespace RepositoryLayer.CustomerServices
             connection.ConnectionString = sqlConnectString + "Connection Timeout=30;Connection Lifetime=0;Min Pool Size=0;Max Pool Size=100;Pooling=true;";
         }
 
-        public CustomerOrder PlaceOrder(string CustomerID) 
+        public CustomerOrder PlaceOrder(string CustomerID, long AddressID) 
         {
             try
             {
@@ -33,6 +33,7 @@ namespace RepositoryLayer.CustomerServices
                     CommandType = CommandType.StoredProcedure
                 };
                 cmd.Parameters.AddWithValue("CustomerID", CustomerID);
+                cmd.Parameters.AddWithValue("AddressID", AddressID);
                 var returnParameter = cmd.Parameters.Add("@Result", SqlDbType.Int);
                 returnParameter.Direction = ParameterDirection.ReturnValue;
                 SqlDataReader rd = cmd.ExecuteReader();
@@ -48,6 +49,7 @@ namespace RepositoryLayer.CustomerServices
                     order.OrderDate = rd["OrderDate"] == DBNull.Value ? default : rd.GetDateTime("OrderDate");
                     order.TotalCost = rd["TotalCost"] == DBNull.Value ? default : rd.GetInt32("TotalCost");
                     order.CustomerID = rd["CustomerID"] == DBNull.Value ? default : rd.GetString("CustomerID");
+                    order.Email = rd["Email"] == DBNull.Value ? default : rd.GetString("Email");
                 }
                 return order;
             }

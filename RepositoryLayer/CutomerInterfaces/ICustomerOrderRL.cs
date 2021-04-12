@@ -7,6 +7,6 @@ namespace RepositoryLayer.CutomerInterfaces
 {
     public interface ICustomerOrderRL
     {
-        public CustomerOrder PlaceOrder(string CustomerID);
+        public CustomerOrder PlaceOrder(string CustomerID, long AddressID);
     }
 }

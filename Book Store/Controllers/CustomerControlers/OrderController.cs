@@ -23,8 +23,8 @@ namespace Book_Store.Controllers.CustomerControlers
             this.customerOrderBL = customerOrderBL;
         }
 
-        [HttpPost]
-        public IActionResult PlaceOrder()
+        [HttpPost("{AddressID}")]
+        public IActionResult PlaceOrder(long AddressID)
         {
             try
             {
@@ -33,7 +33,7 @@ namespace Book_Store.Controllers.CustomerControlers
                 {
                     IEnumerable<Claim> claims = identity.Claims;
                     string CustomerID = claims.Where(p => p.Type == "CustomerID").FirstOrDefault()?.Value;
-                    CustomerOrder Order = customerOrderBL.PlaceOrder(CustomerID);
+                    CustomerOrder Order = customerOrderBL.PlaceOrder(CustomerID, AddressID);
                     if (Order != null)
                     {
                         return Ok(new { success = true, Message = "order placed successfully", Order });
