@@ -1,16 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
-using System.Threading.Tasks;
 using BusinessLayer;
-using BusinessLayer.AdminInterfaces;
 using CommonLayer.RequestModel;
 using CommonLayer.ResponseModel;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 
 namespace Book_Store.Controllers.AdminController
 {
@@ -18,7 +13,6 @@ namespace Book_Store.Controllers.AdminController
     [ApiController]
     public class BookController : ControllerBase
     {
-        private readonly IConfiguration config;
         private readonly IBookManagementBL bookManagementBL;
         public BookController(IBookManagementBL bookManagementBL)
         {
@@ -51,7 +45,7 @@ namespace Book_Store.Controllers.AdminController
                 return BadRequest(new { success = false, exception.Message });
             }
         }
-        [Authorize(Roles = Role.Customer)]
+        [AllowAnonymous]
         [HttpGet]
         public IActionResult GetBooks()
         {
