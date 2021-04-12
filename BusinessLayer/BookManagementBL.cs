@@ -56,5 +56,18 @@ namespace BusinessLayer
                 throw;
             }
         }
+
+        public ResponseBook UpdateBook(RequestBook book)
+        {
+            try
+            {
+                return bookManagementRL.UpdateBook(book);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

@@ -79,10 +79,33 @@ namespace Book_Store.Controllers.AdminController
                     bool result = bookManagementBL.DeleteBook(BookID);
                     if (result)
                     {
-                        return Ok(new { success = true, Message = "books deleted", result });
+                        return Ok(new { success = true, Message = "book deleted", result });
                     }
                 }
                 return BadRequest(new { success = false, Message = "book delete Unsuccessful" });
+            }
+            catch (Exception exception)
+            {
+                return BadRequest(new { success = false, exception.Message });
+            }
+        }
+
+        [Authorize(Roles = Role.Admin)]
+        [HttpPut]
+        public IActionResult UpdateBook(RequestBook Book)
+        {
+            try
+            {
+                var identity = User.Identity as ClaimsIdentity;
+                if (identity != null)
+                {
+                    ResponseBook result = bookManagementBL.UpdateBook(Book);
+                    if (result != null)
+                    {
+                        return Ok(new { success = true, Message = "book updated", result });
+                    }
+                }
+                return BadRequest(new { success = false, Message = "book update Unsuccessful" });
             }
             catch (Exception exception)
             {
