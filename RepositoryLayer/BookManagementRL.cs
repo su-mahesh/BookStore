@@ -80,7 +80,15 @@ namespace RepositoryLayer
                 returnParameter.Direction = ParameterDirection.ReturnValue;
                 cmd.ExecuteNonQuery();
                 var result = returnParameter.Value;
-                return result.Equals(1);
+                if (result.Equals(2))
+                {
+                    throw new Exception("book don't exist");
+                }
+                else if (result.Equals(3))
+                {
+                    throw new Exception("book already deleted");
+                }
+                return true;
             }
             catch (Exception)
             {
@@ -157,7 +165,7 @@ namespace RepositoryLayer
                     Book.BookName = rd["BookName"] == DBNull.Value ? default : rd.GetString("BookName");
                     Book.AuthorName = rd["AuthorName"] == DBNull.Value ? default : rd.GetString("AuthorName");
                     Book.BookImage = rd["BookImage"] == DBNull.Value ? default : rd.GetString("BookImage");
-                    Book.InStock = rd["InStock"] == DBNull.Value ? default : rd.GetBoolean("InStock");
+                    Book.InStock = rd["InStock"] != DBNull.Value && rd.GetBoolean("InStock");
                 }
                 return Book;
             }

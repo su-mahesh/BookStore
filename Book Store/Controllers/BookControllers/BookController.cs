@@ -78,7 +78,7 @@ namespace Book_Store.Controllers.AdminController
                     bool result = bookManagementBL.DeleteBook(BookID);
                     if (result)
                     {
-                        return Ok(new { success = true, Message = "book deleted", result });
+                        return Ok(new { success = true, Message = "book deleted" });
                     }
                 }
                 return BadRequest(new { success = false, Message = "book delete Unsuccessful" });
@@ -98,10 +98,10 @@ namespace Book_Store.Controllers.AdminController
                 var identity = User.Identity as ClaimsIdentity;
                 if (identity != null)
                 {
-                    ResponseBook result = bookManagementBL.UpdateBook(Book);
-                    if (result != null)
+                    ResponseBook book = bookManagementBL.UpdateBook(Book);
+                    if (book != null)
                     {
-                        return Ok(new { success = true, Message = "book updated", result });
+                        return Ok(new { success = true, Message = "book updated", book });
                     }
                 }
                 return BadRequest(new { success = false, Message = "book update Unsuccessful" });
