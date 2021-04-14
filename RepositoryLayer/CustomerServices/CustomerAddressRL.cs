@@ -39,6 +39,7 @@ namespace RepositoryLayer.CustomerServices
                 cmd.Parameters.AddWithValue("CustomerID", address.CustomerID);
                 cmd.Parameters.AddWithValue("Name", address.Name);
                 cmd.Parameters.AddWithValue("Pincode", address.Pincode);
+                cmd.Parameters.AddWithValue("PhoneNumber", address.PhoneNumber);
                 cmd.Parameters.AddWithValue("Address", address.Address);
                 cmd.Parameters.AddWithValue("City", address.City);
                 cmd.Parameters.AddWithValue("AddressType", address.AddressType);
@@ -48,6 +49,7 @@ namespace RepositoryLayer.CustomerServices
                 if (rd.Read())
                 {
                     customerAddress.AddressID = rd["CustomerAddressID"] == DBNull.Value ? default : rd.GetInt64("CustomerAddressID");
+                    customerAddress.PhoneNumber = rd["PhoneNumber"] == DBNull.Value ? default : rd.GetInt64("PhoneNumber");
                     customerAddress.Address = rd["Address"] == DBNull.Value ? default : rd.GetString("Address");
                     customerAddress.Name = rd["Name"] == DBNull.Value ? default : rd.GetString("Name");
                     customerAddress.AddressType = rd["AddressType"] == DBNull.Value ? default : rd.GetString("AddressType");
@@ -85,11 +87,11 @@ namespace RepositoryLayer.CustomerServices
                 returnParameter.Direction = ParameterDirection.ReturnValue;
                 cmd.ExecuteReader();
                 var result = returnParameter.Value;
-                if (result != null && result.Equals(1))
+                if (result != null && result.Equals(2))
                 {
-                    return true;
+                    throw new Exception("AddressID dont exist");
                 }
-                return false;
+                return true;
             }
             catch (Exception)
             {
@@ -119,7 +121,9 @@ namespace RepositoryLayer.CustomerServices
                 var result = returnParameter.Value;
                 while (rd.Read())
                 {
+                    customerAddress = new CustomerAddressResponse();
                     customerAddress.AddressID = rd["CustomerAddressID"] == DBNull.Value ? default : rd.GetInt64("CustomerAddressID");
+                    customerAddress.PhoneNumber = rd["PhoneNumber"] == DBNull.Value ? default : rd.GetInt64("PhoneNumber");
                     customerAddress.Address = rd["Address"] == DBNull.Value ? default : rd.GetString("Address");
                     customerAddress.Name = rd["Name"] == DBNull.Value ? default : rd.GetString("Name");
                     customerAddress.AddressType = rd["AddressType"] == DBNull.Value ? default : rd.GetString("AddressType");
@@ -157,6 +161,7 @@ namespace RepositoryLayer.CustomerServices
                 cmd.Parameters.AddWithValue("CustomerAddressID", address.CustomerAddressID);
                 cmd.Parameters.AddWithValue("Name", address.Name);
                 cmd.Parameters.AddWithValue("Pincode", address.Pincode);
+                cmd.Parameters.AddWithValue("PhoneNumber", address.PhoneNumber);
                 cmd.Parameters.AddWithValue("Address", address.Address);
                 cmd.Parameters.AddWithValue("City", address.City);
                 cmd.Parameters.AddWithValue("AddressType", address.AddressType);
@@ -166,6 +171,7 @@ namespace RepositoryLayer.CustomerServices
                 if (rd.Read())
                 {
                     customerAddress.AddressID = rd["CustomerAddressID"] == DBNull.Value ? default : rd.GetInt64("CustomerAddressID");
+                    customerAddress.PhoneNumber = rd["PhoneNumber"] == DBNull.Value ? default : rd.GetInt64("PhoneNumber");
                     customerAddress.Address = rd["Address"] == DBNull.Value ? default : rd.GetString("Address");
                     customerAddress.Name = rd["Name"] == DBNull.Value ? default : rd.GetString("Name");
                     customerAddress.AddressType = rd["AddressType"] == DBNull.Value ? default : rd.GetString("AddressType");

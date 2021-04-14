@@ -119,10 +119,10 @@ namespace Book_Store.Controllers.CustomerControlers
                     IEnumerable<Claim> claims = identity.Claims;
                     string CustomerID = claims.Where(p => p.Type == "CustomerID").FirstOrDefault()?.Value;
                     address.CustomerID = CustomerID;
-                    CustomerAddressResponse result = CustomerAddressBL.UpdateCustomerAddress(address);
-                    if (result != null)
+                    CustomerAddressResponse Address = CustomerAddressBL.UpdateCustomerAddress(address);
+                    if (Address != null)
                     {
-                        return Ok(new { success = true, Message = "Customer address updated" });
+                        return Ok(new { success = true, Message = "Customer address updated", Address });
                     }
 
                 }

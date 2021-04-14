@@ -10,6 +10,7 @@ namespace CommonLayer.ResponseModel
         public long AddressID { get; set; }
         public string CustomerID { get; set; }
         public int Pincode { get; set; }
+        public long PhoneNumber { get; set; }
         public string Locality { get; set; }
         public string Address { get; set; }
         public string City { get; set; }
