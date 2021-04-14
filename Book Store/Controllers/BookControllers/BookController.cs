@@ -31,11 +31,10 @@ namespace Book_Store.Controllers.AdminController
                 var identity = User.Identity as ClaimsIdentity;
                 if (identity != null)
                 {
-                    IEnumerable<Claim> claims = identity.Claims;
-                    bool result = bookManagementBL.AddBook(Book);
-                    if (result)
+                    ResponseBook book = bookManagementBL.AddBook(Book);
+                    if (book != null)
                     {
-                        return Ok(new { success = true, Message = "book added", result });
+                        return Ok(new { success = true, Message = "book added", book });
                     }
                 }
                 return BadRequest(new { success = false, Message = "book adding Unsuccessful" });
@@ -68,7 +67,7 @@ namespace Book_Store.Controllers.AdminController
             }
         }
         [Authorize(Roles = Role.Admin)]
-        [HttpDelete("BookID")]
+        [HttpDelete("{BookID}")]
         public IActionResult DeleteBook(long BookID) 
         {
             try

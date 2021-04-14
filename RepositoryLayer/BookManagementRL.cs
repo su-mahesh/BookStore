@@ -25,7 +25,7 @@ namespace RepositoryLayer
             sqlConnectString = config.GetConnectionString("BookStoreConnection");
             connection.ConnectionString = sqlConnectString + "Connection Timeout=30;Connection Lifetime=0;Min Pool Size=0;Max Pool Size=100;Pooling=true;";
         }
-        public bool AddBook(RequestBook book)
+        public ResponseBook AddBook(RequestBook book)
         {
             try
             {
@@ -40,15 +40,19 @@ namespace RepositoryLayer
                 cmd.Parameters.AddWithValue("BookPrice", book.BookPrice);
                 cmd.Parameters.AddWithValue("BookQuantity", book.Quantity);
                 cmd.Parameters.AddWithValue("AuthorName", book.AuthorName);
-                var returnParameter = cmd.Parameters.Add("@Result", SqlDbType.Int);
-                returnParameter.Direction = ParameterDirection.ReturnValue;
                 SqlDataReader rd = cmd.ExecuteReader();
-                var result = returnParameter.Value;
-                if (result != null && result.Equals(1))
+                if (rd.Read())
                 {
-                    return true;
+                    Book = new ResponseBook();
+                    Book.BookID = rd["BookID"] == DBNull.Value ? default : rd.GetInt64("BookID");
+                    Book.BookDiscription = rd["BookDiscription"] == DBNull.Value ? default : rd.GetString("BookDiscription");
+                    Book.BookPrice = rd["BookPrice"] == DBNull.Value ? default : rd.GetInt32("BookPrice");
+                    Book.BookName = rd["BookName"] == DBNull.Value ? default : rd.GetString("BookName");
+                    Book.AuthorName = rd["AuthorName"] == DBNull.Value ? default : rd.GetString("AuthorName");
+                    Book.BookImage = rd["BookImage"] == DBNull.Value ? default : rd.GetString("BookImage");
+                    Book.InStock = rd["InStock"] != DBNull.Value && rd.GetBoolean("InStock");
                 }
-                return false;
+                return Book;
             }
             catch (Exception)
             {
@@ -109,7 +113,7 @@ namespace RepositoryLayer
                     Book.BookName = rd["BookName"] == DBNull.Value ? default : rd.GetString("BookName");
                     Book.AuthorName = rd["AuthorName"] == DBNull.Value ? default : rd.GetString("AuthorName");
                     Book.BookImage = rd["BookImage"] == DBNull.Value ? default : rd.GetString("BookImage");
-                    Book.Quantity = rd["BookQuantity"] == DBNull.Value ? default : rd.GetInt32("BookQuantity");
+                    Book.InStock = rd["InStock"] == DBNull.Value ? default : rd.GetBoolean("InStock");
                     Books.Add(Book);
                 }
                 return Books;
@@ -153,7 +157,7 @@ namespace RepositoryLayer
                     Book.BookName = rd["BookName"] == DBNull.Value ? default : rd.GetString("BookName");
                     Book.AuthorName = rd["AuthorName"] == DBNull.Value ? default : rd.GetString("AuthorName");
                     Book.BookImage = rd["BookImage"] == DBNull.Value ? default : rd.GetString("BookImage");
-                    Book.Quantity = rd["BookQuantity"] == DBNull.Value ? default : rd.GetInt32("BookQuantity");
+                    Book.InStock = rd["InStock"] == DBNull.Value ? default : rd.GetBoolean("InStock");
                 }
                 return Book;
             }

@@ -8,7 +8,7 @@ namespace BusinessLayer
 {
     public interface IBookManagementBL
     {
-        bool AddBook(RequestBook book);
+        ResponseBook AddBook(RequestBook book);
         ICollection<ResponseBook> GetBooks();
         bool DeleteBook(long bookID);
         ResponseBook UpdateBook(RequestBook book);

@@ -18,7 +18,7 @@ namespace BusinessLayer
             this.bookManagementRL = bookManagementRL;
         }
 
-        public bool AddBook(RequestBook book)
+        public ResponseBook AddBook(RequestBook book)
         {
             try
             {
