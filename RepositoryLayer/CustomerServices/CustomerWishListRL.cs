@@ -74,6 +74,14 @@ namespace RepositoryLayer.CustomerServices
                 returnParameter.Direction = ParameterDirection.ReturnValue;
                 SqlDataReader rd = cmd.ExecuteReader();
                 var result = returnParameter.Value;
+                if (result != null && result.Equals(3))
+                {
+                    throw new Exception("Book already in wish list");
+                }
+                else if (result != null && result.Equals(2))
+                {
+                    throw new Exception("Book don't exist");
+                }
                 ICollection<CustomerWishList> WishList = new List<CustomerWishList>();
                 CustomerWishList Book;
                 while (rd.Read())
@@ -113,6 +121,14 @@ namespace RepositoryLayer.CustomerServices
                 returnParameter.Direction = ParameterDirection.ReturnValue;
                 SqlDataReader rd = cmd.ExecuteReader();
                 var result = returnParameter.Value;
+                if (result != null && result.Equals(3))
+                {
+                    throw new Exception("Book is not in wish list");
+                }
+                else if (result != null && result.Equals(2))
+                {
+                    throw new Exception("Book don't exist");
+                }
                 ICollection<CustomerWishList> WishList = new List<CustomerWishList>();
                 CustomerWishList Book;
                 while (rd.Read())
