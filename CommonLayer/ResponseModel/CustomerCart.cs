@@ -11,5 +11,7 @@ namespace CommonLayer.ResponseModel
         public string CustomerID { get; set; }
         public long BookID { get; set; }
         public int BookPrice { get; set; }
+        public int TotalCost { get; set; }
+        public int Count { get; set; }
     }
 }

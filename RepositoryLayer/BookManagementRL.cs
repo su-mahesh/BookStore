@@ -156,16 +156,21 @@ namespace RepositoryLayer
                 var returnParameter = cmd.Parameters.Add("@Result", SqlDbType.Int);
                 returnParameter.Direction = ParameterDirection.ReturnValue;
                 SqlDataReader rd = cmd.ExecuteReader();
+                var result = returnParameter.Value;
+                if (result != null && result.Equals(2))
+                    throw new Exception("book don't exist");
                 if (rd.Read())
                 {
-                    Book = new ResponseBook();
-                    Book.BookID = rd["BookID"] == DBNull.Value ? default : rd.GetInt64("BookID");
-                    Book.BookDiscription = rd["BookDiscription"] == DBNull.Value ? default : rd.GetString("BookDiscription");
-                    Book.BookPrice = rd["BookPrice"] == DBNull.Value ? default : rd.GetInt32("BookPrice");
-                    Book.BookName = rd["BookName"] == DBNull.Value ? default : rd.GetString("BookName");
-                    Book.AuthorName = rd["AuthorName"] == DBNull.Value ? default : rd.GetString("AuthorName");
-                    Book.BookImage = rd["BookImage"] == DBNull.Value ? default : rd.GetString("BookImage");
-                    Book.InStock = rd["InStock"] != DBNull.Value && rd.GetBoolean("InStock");
+                    Book = new ResponseBook
+                    {
+                        BookID = rd["BookID"] == DBNull.Value ? default : rd.GetInt64("BookID"),
+                        BookDiscription = rd["BookDiscription"] == DBNull.Value ? default : rd.GetString("BookDiscription"),
+                        BookPrice = rd["BookPrice"] == DBNull.Value ? default : rd.GetInt32("BookPrice"),
+                        BookName = rd["BookName"] == DBNull.Value ? default : rd.GetString("BookName"),
+                        AuthorName = rd["AuthorName"] == DBNull.Value ? default : rd.GetString("AuthorName"),
+                        BookImage = rd["BookImage"] == DBNull.Value ? default : rd.GetString("BookImage"),
+                        InStock = rd["InStock"] != DBNull.Value && rd.GetBoolean("InStock")
+                    };
                 }
                 return Book;
             }
