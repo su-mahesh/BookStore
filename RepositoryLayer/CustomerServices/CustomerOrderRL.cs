@@ -50,6 +50,17 @@ namespace RepositoryLayer.CustomerServices
                     order.TotalCost = rd["TotalCost"] == DBNull.Value ? default : rd.GetInt32("TotalCost");
                     order.CustomerID = rd["CustomerID"] == DBNull.Value ? default : rd.GetString("CustomerID");
                     order.Email = rd["Email"] == DBNull.Value ? default : rd.GetString("Email");
+                    order.AddressID = rd["OrderAddressID"] == DBNull.Value ? default : rd.GetInt64("OrderAddressID");
+                    order.PhoneNumber = rd["PhoneNumber"] == DBNull.Value ? default : rd.GetInt64("PhoneNumber");
+                    order.Address = rd["Address"] == DBNull.Value ? default : rd.GetString("Address");
+                    order.Name = rd["Name"] == DBNull.Value ? default : rd.GetString("Name");
+                    order.AddressType = rd["AddressType"] == DBNull.Value ? default : rd.GetString("AddressType");
+                    order.City = rd["City"] == DBNull.Value ? default : rd.GetString("City");
+                    order.CustomerID = rd["CustomerID"] == DBNull.Value ? default : rd.GetString("CustomerID");
+                    order.Pincode = rd["Pincode"] == DBNull.Value ? default : rd.GetInt32("Pincode");
+                    order.Landmark = rd["Landmark"] == DBNull.Value ? default : rd.GetString("Landmark");
+                    order.Locality = rd["Locality"] == DBNull.Value ? default : rd.GetString("Locality");
+
                 }
                 return order;
             }
