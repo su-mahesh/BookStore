@@ -2,6 +2,7 @@
 using BusinessLayer.AdminInterfaces;
 using CommonLayer.RequestModel;
 using CommonLayer.ResponseModel;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
@@ -11,6 +12,7 @@ namespace Book_Store.Controllers.Account
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("AllowOrigin")]
     public class AdminAccountController : ControllerBase
     {
         IAdminAccountBL adminAccountBL;

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using BusinessLayer.CustomerIntrfaces;
 using CommonLayer.ResponseModel;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,6 +14,7 @@ namespace Book_Store.Controllers.CustomerControlers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("AllowOrigin")]
     [Authorize(Roles = Role.Customer)]
     public class WishListController : ControllerBase
     {

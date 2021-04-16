@@ -5,11 +5,13 @@ using BusinessLayer;
 using CommonLayer.RequestModel;
 using CommonLayer.ResponseModel;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Book_Store.Controllers.AdminController
 {
     [Route("api/[controller]")]
+    [EnableCors("AllowOrigin")]
     [ApiController]
     public class BookController : ControllerBase
     {

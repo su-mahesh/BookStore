@@ -87,6 +87,10 @@ namespace Book_Store
                 };
             });
             services.AddControllers();
+            services.AddCors(c =>
+            {
+                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            });
             services.AddSwaggerGen(swagger =>
             {
                 //This is to generate the Default UI of Swagger Documentation  
@@ -135,7 +139,7 @@ namespace Book_Store
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
+            app.UseCors("AllowOrigin");
             app.UseAuthentication();
             app.UseAuthorization();
 
