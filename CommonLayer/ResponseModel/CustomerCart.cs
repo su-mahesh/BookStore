@@ -8,6 +8,7 @@ namespace CommonLayer.ResponseModel
     {
         public long CartID { get; set; }
         public string BookName { get; set; }
+        public string AuthorName { get; set; }
         public string CustomerID { get; set; }
         public long BookID { get; set; }
         public int BookPrice { get; set; }

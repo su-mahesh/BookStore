@@ -36,20 +36,20 @@ namespace Book_Store
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<ICustomerAccountBL, CustomerAccountBL>();
-            services.AddSingleton<ICustomerAccountRL, CustomerAccountRL>();
-            services.AddSingleton<IAdminAccountBL, AdminAccountBL>();
-            services.AddSingleton<IAdminAccountRL, AdminAccountRL>();
-            services.AddSingleton<ICustomerAddressBL, CustomerAddressBL>();
-            services.AddSingleton<ICustomerAddressRL, CustomerAddressRL>();
-            services.AddSingleton<IBookManagementBL, BookManagementBL>();
-            services.AddSingleton<IBookManagementRL, BookManagementRL>();
-            services.AddSingleton<ICustomerCartBL, CustomerCartBL>();
-            services.AddSingleton<ICustomerCartRL, CustomerCartRL>();
-            services.AddSingleton<ICustomerWishListBL, CustomerWishListBL>();
-            services.AddSingleton<ICustomerWishListRL, CustomerWishListRL>();
-            services.AddSingleton<ICustomerOrderBL, CustomerOrderBL>();
-            services.AddSingleton<ICustomerOrderRL, CustomerOrderRL>();
+            services.AddScoped<ICustomerAccountBL, CustomerAccountBL>();
+            services.AddScoped<ICustomerAccountRL, CustomerAccountRL>();
+            services.AddScoped<IAdminAccountBL, AdminAccountBL>();
+            services.AddScoped<IAdminAccountRL, AdminAccountRL>();
+            services.AddScoped<ICustomerAddressBL, CustomerAddressBL>();
+            services.AddScoped<ICustomerAddressRL, CustomerAddressRL>();
+            services.AddScoped<IBookManagementBL, BookManagementBL>();
+            services.AddScoped<IBookManagementRL, BookManagementRL>();
+            services.AddScoped<ICustomerCartBL, CustomerCartBL>();
+            services.AddScoped<ICustomerCartRL, CustomerCartRL>();
+            services.AddScoped<ICustomerWishListBL, CustomerWishListBL>();
+            services.AddScoped<ICustomerWishListRL, CustomerWishListRL>();
+            services.AddScoped<ICustomerOrderBL, CustomerOrderBL>();
+            services.AddScoped<ICustomerOrderRL, CustomerOrderRL>();
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("RequireAdministratorRole",

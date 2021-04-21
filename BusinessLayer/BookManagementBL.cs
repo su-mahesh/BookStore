@@ -44,11 +44,11 @@ namespace BusinessLayer
             }
         }
 
-        public ICollection<ResponseBook> GetBooks()
+        public ICollection<ResponseBook> GetCustomerBooks(string CustomerID)
         {
             try
             {
-                return bookManagementRL.GetBooks();
+                return bookManagementRL.GetCustomerBooks(CustomerID);
             }
             catch (Exception)
             {

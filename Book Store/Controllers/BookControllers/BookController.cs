@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using BusinessLayer;
 using CommonLayer.RequestModel;
@@ -46,7 +47,7 @@ namespace Book_Store.Controllers.AdminController
                 return BadRequest(new { success = false, exception.Message });
             }
         }
-        [AllowAnonymous]
+        [Authorize(Roles = Role.Customer)]
         [HttpGet]
         public IActionResult GetBooks()
         {
@@ -55,7 +56,10 @@ namespace Book_Store.Controllers.AdminController
                 var identity = User.Identity as ClaimsIdentity;
                 if (identity != null)
                 {
-                    ICollection<ResponseBook> books = bookManagementBL.GetBooks();
+                    IEnumerable<Claim> claims = identity.Claims;
+                    string CustomerID = claims.Where(p => p.Type == "CustomerID").FirstOrDefault()?.Value;
+
+                    ICollection<ResponseBook> books = bookManagementBL.GetCustomerBooks(CustomerID);
                     if (books != null)
                     {
                         return Ok(new { success = true, Message = "books fetched", books });

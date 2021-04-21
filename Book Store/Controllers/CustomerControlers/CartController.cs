@@ -95,5 +95,28 @@ namespace Book_Store.Controllers.CustomerControlers
                 return BadRequest(new { success = false, exception.Message });
             }
         }
+        [HttpPut("{BookID}/{Quantity}")]
+        public IActionResult UpdateBookInCart(long BookID, long Quantity)
+        {
+            try
+            {
+                var identity = User.Identity as ClaimsIdentity;
+                if (identity != null && Quantity >= 0)
+                {
+                    IEnumerable<Claim> claims = identity.Claims;
+                    string CustomerID = claims.Where(p => p.Type == "CustomerID").FirstOrDefault()?.Value;
+                    ICollection<CustomerCart> cart = customerCartBL.UpdateBookInCart(CustomerID, BookID, Quantity);
+                    if (cart != null)
+                    {
+                        return Ok(new { success = true, Message = "book updated in cart", cart });
+                    }
+                }
+                return BadRequest(new { success = false, Message = "book update Unsuccessful" });
+            }
+            catch (Exception exception)
+            {
+                return BadRequest(new { success = false, exception.Message });
+            }
+        }
     }
 }

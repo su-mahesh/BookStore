@@ -28,7 +28,7 @@ namespace BusinessLayer.JWTAuthentication
 
         public string GenerateCustomerSessionJWT(CustomerAccount userInfo)
         {
-            DateTime ExpireTime = DateTime.Now.AddMinutes(120);
+            DateTime ExpireTime = DateTime.Now.AddDays(10);
             IEnumerable<Claim> Claims = new Claim[] {
                 new Claim(ClaimTypes.Role, "Customer"),
                 new Claim("CustomerID", userInfo.CustomerID.ToString()),
@@ -38,7 +38,7 @@ namespace BusinessLayer.JWTAuthentication
 
         public string GenerateAdminSessionJWT(AdminAccount userInfo)
         {
-            DateTime ExpireTime = DateTime.Now.AddMinutes(120);
+            DateTime ExpireTime = DateTime.Now.AddDays(10);
             IEnumerable<Claim> Claims = new Claim[] {
                 new Claim(ClaimTypes.Role, "Admin"),
                 new Claim("AdminID", userInfo.AdminID.ToString()),

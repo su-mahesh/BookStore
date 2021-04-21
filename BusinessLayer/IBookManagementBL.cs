@@ -9,7 +9,7 @@ namespace BusinessLayer
     public interface IBookManagementBL
     {
         ResponseBook AddBook(RequestBook book);
-        ICollection<ResponseBook> GetBooks();
+        ICollection<ResponseBook> GetCustomerBooks(string CustomerID);
         bool DeleteBook(long bookID);
         ResponseBook UpdateBook(RequestBook book);
     }

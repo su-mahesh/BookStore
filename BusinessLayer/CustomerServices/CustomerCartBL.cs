@@ -54,5 +54,19 @@ namespace BusinessLayer.CustomerServices
                 throw;
             }
         }
+
+        public ICollection<CustomerCart> UpdateBookInCart(string CustomerID, long BookID, long Quantity)
+        {
+            try
+            {
+                ICollection<CustomerCart> result;
+                result = customerCartRL.UpdateBookInCart(CustomerID, BookID, Quantity);
+                return result;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

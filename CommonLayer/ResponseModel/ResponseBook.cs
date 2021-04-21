@@ -13,5 +13,6 @@ namespace CommonLayer.ResponseModel
         public int BookPrice { get; set; }
         public string AuthorName { get; set; }
         public bool InStock { get; set; }
+        public bool InCart { get; set; }
     }
 }

@@ -16,7 +16,7 @@ namespace RepositoryLayer
         readonly string sqlConnectString;
         ResponseBook Book;
         readonly string InserBookRecordSQL = "InserBookRecord";
-        readonly string GetBookRecordSQL = "GetBookRecord";
+        readonly string GetBookRecordSQL = "GetCustomerBookRecord";
         readonly string DeleteBookRecordSQL = "DeleteBookRecord";
         readonly string UpdateBookRecordSQL = "UpdateBookRecord";
 
@@ -101,7 +101,7 @@ namespace RepositoryLayer
             }
         }
 
-        public ICollection<ResponseBook> GetBooks()
+        public ICollection<ResponseBook> GetCustomerBooks(string CustomerID)
         {
             try
             {
@@ -111,6 +111,7 @@ namespace RepositoryLayer
                 {
                     CommandType = CommandType.StoredProcedure
                 };
+                cmd.Parameters.AddWithValue("CustomerID", CustomerID);
                 SqlDataReader rd = cmd.ExecuteReader();
                 while (rd.Read())
                 {
@@ -122,6 +123,7 @@ namespace RepositoryLayer
                     Book.AuthorName = rd["AuthorName"] == DBNull.Value ? default : rd.GetString("AuthorName");
                     Book.BookImage = rd["BookImage"] == DBNull.Value ? default : rd.GetString("BookImage");
                     Book.InStock = rd["InStock"] == DBNull.Value ? default : rd.GetBoolean("InStock");
+                    Book.InCart = rd["InCart"] == DBNull.Value ? default : rd.GetBoolean("InCart");
                     Books.Add(Book);
                 }
                 return Books;
