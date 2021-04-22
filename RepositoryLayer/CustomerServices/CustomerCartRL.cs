@@ -96,6 +96,7 @@ namespace RepositoryLayer.CustomerServices
                     Book.TotalCost = rd["TotalCost"] == DBNull.Value ? default : rd.GetInt32("TotalCost");
                     Book.CartID = rd["CartID"] == DBNull.Value ? default : rd.GetInt64("CartID");
                     Book.BookName = rd["BookName"] == DBNull.Value ? default : rd.GetString("BookName");
+                    Book.BookImage = rd["BookImage"] == DBNull.Value ? default : rd.GetString("BookImage");
                     Book.AuthorName = rd["AuthorName"] == DBNull.Value ? default : rd.GetString("AuthorName");
                     Book.CustomerID = rd["CustomerID"] == DBNull.Value ? default : rd.GetString("CustomerID");
                     Book.Count = rd["BookCount"] == DBNull.Value ? default : rd.GetInt32("BookCount");

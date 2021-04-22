@@ -8,9 +8,9 @@ namespace RepositoryLayer
 {
     public interface IBookManagementRL
     {
-        ResponseBook AddBook(RequestBook book);
-        ICollection<ResponseBook> GetCustomerBooks(string CustomerID);
+        ResponseBookDB AddBook(RequestBookDB book);
+        ICollection<ResponseBookDB> GetCustomerBooks(string CustomerID);
         bool DeleteBook(long bookID);
-        ResponseBook UpdateBook(RequestBook book);
+        ResponseBookDB UpdateBook(long BookID,RequestBook book);
     }
 }

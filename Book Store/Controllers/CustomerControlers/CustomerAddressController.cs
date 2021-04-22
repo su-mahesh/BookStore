@@ -42,10 +42,10 @@ namespace Book_Store.Controllers.CustomerControlers
                     IEnumerable<Claim> claims = identity.Claims;
                     string CustomerID = claims.Where(p => p.Type == "CustomerID").FirstOrDefault()?.Value;
                     address.CustomerID = CustomerID;
-                    CustomerAddressResponse result = CustomerAddressBL.AddCustomerAddress(address);
-                    if (result != null)
+                    CustomerAddressResponse Address = CustomerAddressBL.AddCustomerAddress(address);
+                    if (Address != null)
                     {
-                        return Ok(new { success = true, Message = "Customer address added" });
+                        return Ok(new { success = true, Message = "Customer address added", Address });
                     }
 
                 }

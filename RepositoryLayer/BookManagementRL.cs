@@ -14,7 +14,8 @@ namespace RepositoryLayer
     {
         readonly SqlConnection connection = new SqlConnection();
         readonly string sqlConnectString;
-        ResponseBook Book;
+        ICollection<ResponseBookDB> Books;
+        ResponseBookDB Book;
         readonly string InserBookRecordSQL = "InserBookRecord";
         readonly string GetBookRecordSQL = "GetCustomerBookRecord";
         readonly string DeleteBookRecordSQL = "DeleteBookRecord";
@@ -25,7 +26,7 @@ namespace RepositoryLayer
             sqlConnectString = config.GetConnectionString("BookStoreConnection");
             connection.ConnectionString = sqlConnectString + "Connection Timeout=30;Connection Lifetime=0;Min Pool Size=0;Max Pool Size=100;Pooling=true;";
         }
-        public ResponseBook AddBook(RequestBook book)
+        public ResponseBookDB AddBook(RequestBookDB book)
         {
             try
             {
@@ -43,10 +44,11 @@ namespace RepositoryLayer
                 SqlDataReader rd = cmd.ExecuteReader();
                 if (rd.Read())
                 {
-                    Book = new ResponseBook();
+                    Book = new ResponseBookDB();
                     Book.BookID = rd["BookID"] == DBNull.Value ? default : rd.GetInt64("BookID");
                     Book.BookDiscription = rd["BookDiscription"] == DBNull.Value ? default : rd.GetString("BookDiscription");
                     Book.BookPrice = rd["BookPrice"] == DBNull.Value ? default : rd.GetInt32("BookPrice");
+                    Book.Quantity = rd["BookQuantity"] == DBNull.Value ? default : rd.GetInt32("BookQuantity");
                     Book.BookName = rd["BookName"] == DBNull.Value ? default : rd.GetString("BookName");
                     Book.AuthorName = rd["AuthorName"] == DBNull.Value ? default : rd.GetString("AuthorName");
                     Book.BookImage = rd["BookImage"] == DBNull.Value ? default : rd.GetString("BookImage");
@@ -101,11 +103,11 @@ namespace RepositoryLayer
             }
         }
 
-        public ICollection<ResponseBook> GetCustomerBooks(string CustomerID)
+        public ICollection<ResponseBookDB> GetCustomerBooks(string CustomerID)
         {
             try
             {
-                ICollection<ResponseBook> Books = new List<ResponseBook>();
+                Books = new List<ResponseBookDB>();
                 connection.Open();
                 SqlCommand cmd = new SqlCommand(GetBookRecordSQL, connection)
                 {
@@ -115,7 +117,7 @@ namespace RepositoryLayer
                 SqlDataReader rd = cmd.ExecuteReader();
                 while (rd.Read())
                 {
-                    Book = new ResponseBook();
+                    Book = new ResponseBookDB();
                     Book.BookID = rd["BookID"] == DBNull.Value ? default : rd.GetInt64("BookID");
                     Book.BookDiscription = rd["BookDiscription"] == DBNull.Value ? default : rd.GetString("BookDiscription");
                     Book.BookPrice = rd["BookPrice"] == DBNull.Value ? default : rd.GetInt32("BookPrice");
@@ -139,7 +141,7 @@ namespace RepositoryLayer
             }
         }
 
-        public ResponseBook UpdateBook(RequestBook book)
+        public ResponseBookDB UpdateBook(long BookID, RequestBook book)
         {
             try
             {
@@ -148,7 +150,7 @@ namespace RepositoryLayer
                 {
                     CommandType = CommandType.StoredProcedure
                 };
-                cmd.Parameters.AddWithValue("BookID", book.BookID);
+                cmd.Parameters.AddWithValue("BookID", BookID);
                 cmd.Parameters.AddWithValue("BookName", book.BookName);
                 cmd.Parameters.AddWithValue("BookDiscription", book.BookDiscription);
                 cmd.Parameters.AddWithValue("BookImage", book.BookImage);
@@ -163,7 +165,7 @@ namespace RepositoryLayer
                     throw new Exception("book don't exist");
                 if (rd.Read())
                 {
-                    Book = new ResponseBook
+                    Book = new ResponseBookDB
                     {
                         BookID = rd["BookID"] == DBNull.Value ? default : rd.GetInt64("BookID"),
                         BookDiscription = rd["BookDiscription"] == DBNull.Value ? default : rd.GetString("BookDiscription"),

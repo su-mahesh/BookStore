@@ -7,6 +7,7 @@ using CommonLayer.RequestModel;
 using CommonLayer.ResponseModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Book_Store.Controllers.AdminController
@@ -23,7 +24,7 @@ namespace Book_Store.Controllers.AdminController
         }
         [Authorize(Roles = Role.Admin)]
         [HttpPost]
-        public IActionResult AddBook(RequestBook Book)
+        public IActionResult AddBook([FromForm]RequestBook Book)
         {
             if (Book == null)
             {
@@ -34,7 +35,7 @@ namespace Book_Store.Controllers.AdminController
                 var identity = User.Identity as ClaimsIdentity;
                 if (identity != null)
                 {
-                    ResponseBook book = bookManagementBL.AddBook(Book);
+                    ResponseBookDB book = bookManagementBL.AddBook(Book);
                     if (book != null)
                     {
                         return Ok(new { success = true, Message = "book added", book });
@@ -59,7 +60,7 @@ namespace Book_Store.Controllers.AdminController
                     IEnumerable<Claim> claims = identity.Claims;
                     string CustomerID = claims.Where(p => p.Type == "CustomerID").FirstOrDefault()?.Value;
 
-                    ICollection<ResponseBook> books = bookManagementBL.GetCustomerBooks(CustomerID);
+                    ICollection<ResponseBookDB> books = bookManagementBL.GetCustomerBooks(CustomerID);
                     if (books != null)
                     {
                         return Ok(new { success = true, Message = "books fetched", books });
@@ -96,15 +97,15 @@ namespace Book_Store.Controllers.AdminController
         }
 
         [Authorize(Roles = Role.Admin)]
-        [HttpPut]
-        public IActionResult UpdateBook(RequestBook Book)
+        [HttpPut("{BookID}")]
+        public IActionResult UpdateBook(long BookID, RequestBook Book)
         {
             try
             {
                 var identity = User.Identity as ClaimsIdentity;
                 if (identity != null)
                 {
-                    ResponseBook book = bookManagementBL.UpdateBook(Book);
+                    ResponseBookDB book = bookManagementBL.UpdateBook(BookID, Book);
                     if (book != null)
                     {
                         return Ok(new { success = true, Message = "book updated", book });

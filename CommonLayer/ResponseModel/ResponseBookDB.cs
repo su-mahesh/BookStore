@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using CommonLayer.BaseModel;
-using Microsoft.AspNetCore.Http;
+﻿using CommonLayer.BaseModel;
 
 namespace CommonLayer.ResponseModel
 {
-    public class ResponseBook : BookModel
+    public class ResponseBookDB : BookModel
     {
         public long BookID { get; set; }
         public string BookImage { get; set; }
